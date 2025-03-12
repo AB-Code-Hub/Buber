@@ -45,7 +45,7 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-userSchema.methods.comparePassword = async (password) => {
+userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
@@ -53,6 +53,6 @@ userSchema.statics.hashPassword = async (password) => {
   return await bcrypt.hash(password, 10);
 };
 
-const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
 
-export default User;
+
