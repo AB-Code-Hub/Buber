@@ -179,4 +179,130 @@ The request body should be a **JSON object** with the following fields:
   ```
 
 
+  # User Profile Endpoint
+
+## 🌟 **Endpoint**: `/users/profile`
+
+### **Method**: `GET`
+
+### **Description**:
+Welcome to the **User Profile Endpoint**! 🚀 This API allows you to retrieve the authenticated user's profile information. You must be authenticated to access this endpoint.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers or cookies.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+---
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: User profile successfully retrieved.
+- **Response Body**:
+  ```json
+  {
+    "_id": "user_id_here",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "createdAt": "timestamp_here",
+    "updatedAt": "timestamp_here"
+  }
+  ```
+
+---
+
+### **401 Unauthorized** ❌
+- **Description**: Missing or invalid authentication token.
+- **Response Body**:
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+---
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+# User Logout Endpoint
+
+## 🌟 **Endpoint**: `/users/logout`
+
+### **Method**: `POST`
+
+### **Description**:
+Welcome to the **User Logout Endpoint**! 🚀 This API allows you to log out the authenticated user by invalidating their JWT token. You must be authenticated to access this endpoint.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers or cookies.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+---
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: User successfully logged out.
+- **Response Body**:
+  ```json
+  {
+    "message": "User logout successfully"
+  }
+  ```
+
+---
+
+### **401 Unauthorized** ❌
+- **Description**: Missing or invalid authentication token.
+- **Response Body**:
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+---
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+
+
+
 
