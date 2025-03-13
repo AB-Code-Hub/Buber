@@ -366,6 +366,8 @@ The request body should be a **JSON object** with the following fields:
         "lastName": "Doe"
       },
       "email": "jane.doe@example.com",
+      "password": "$2b$10$4QWJsqGBlNPUXezPwLyFxeBUDAqfpMpvPpN2bgFIhFpdHLxNN",
+      "status": "inactive",    // default
       "vehicle": {
         "color": "red",
         "plate": "XYZ123",
@@ -393,6 +395,224 @@ The request body should be a **JSON object** with the following fields:
         "location": "body"
       }
     ]
+  }
+  ```
+
+---
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+# Captain Login Endpoint
+
+## 🌟 **Endpoint**: `/captains/login`
+
+### **Method**: `POST`
+
+### **Description**:
+Welcome to the **Captain Login Endpoint**! 🚀 This API allows you to authenticate a captain by submitting their email and password. Upon successful authentication, you'll receive a **JWT token** and the captain's data, making it easy to manage captain sessions.
+
+---
+
+## 📥 **Request Body**
+
+The request body should be a **JSON object** with the following fields:
+
+| Field      | Type   | Description                       | Constraints                          |
+|------------|--------|-----------------------------------|--------------------------------------|
+| `email`    | String | The captain's email address.      | Must be a valid email (required)     |
+| `password` | String | The captain's password.           | Minimum length: 6 characters (required) |
+
+### **Example Request**:
+```json
+{
+  "email": "jane.doe@example.com",
+  "password": "password123"
+}
+```
+
+---
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Captain successfully authenticated.
+- **Response Body**:
+  ```json
+  {
+    "token": "jwt_token_here",
+    "captain": {
+      "fullName": {
+        "firstName": "Jane",
+        "lastName": "Doe"
+      },
+      "email": "jane.doe@example.com",
+      "_id": "captain_id_here",
+      "createdAt": "timestamp_here",
+      "updatedAt": "timestamp_here"
+    }
+  }
+  ```
+
+---
+
+### **400 Bad Request** ❌
+- **Description**: Validation error. Check your request body for missing or invalid fields.
+- **Response Body**:
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Error message here",
+        "param": "field_name",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
+---
+
+### **401 Unauthorized** ❌
+- **Description**: Invalid email or password.
+- **Response Body**:
+  ```json
+  {
+    "message": "Invalid email or password"
+  }
+  ```
+
+---
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+# Captain Profile Endpoint
+
+## 🌟 **Endpoint**: `/captains/profile`
+
+### **Method**: `GET`
+
+### **Description**:
+Welcome to the **Captain Profile Endpoint**! 🚀 This API allows you to retrieve the authenticated captain's profile information. You must be authenticated to access this endpoint.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers or cookies.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+---
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Captain profile successfully retrieved.
+- **Response Body**:
+  ```json
+  {
+    "captain": {
+      "_id": "captain_id_here",
+      "fullName": {
+        "firstName": "Jane",
+        "lastName": "Doe"
+      },
+      "email": "jane.doe@example.com",
+      "createdAt": "timestamp_here",
+      "updatedAt": "timestamp_here"
+    }
+  }
+  ```
+
+---
+
+### **401 Unauthorized** ❌
+- **Description**: Missing or invalid authentication token.
+- **Response Body**:
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+---
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+# Captain Logout Endpoint
+
+## 🌟 **Endpoint**: `/captains/logout`
+
+### **Method**: `POST`
+
+### **Description**:
+Welcome to the **Captain Logout Endpoint**! 🚀 This API allows you to log out the authenticated captain by invalidating their JWT token. You must be authenticated to access this endpoint.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers or cookies.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+---
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Captain successfully logged out.
+- **Response Body**:
+  ```json
+  {
+    "message": "Captain logout successfully"
+  }
+  ```
+
+---
+
+### **401 Unauthorized** ❌
+- **Description**: Missing or invalid authentication token.
+- **Response Body**:
+  ```json
+  {
+    "message": "Authentication required"
   }
   ```
 
