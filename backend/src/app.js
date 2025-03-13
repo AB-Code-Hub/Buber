@@ -1,8 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import {dbConnect} from "./db/db.js"
-import { router as userRoutes } from './routes/user.route.js'
 import cookieparser from 'cookie-parser'
+import { router as userRoutes } from './routes/user.route.js'
+import { router as captainRoutes } from './routes/captain.route.js'
 export const app = express()
 dbConnect();
 app.use(cors())
@@ -16,5 +17,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/users', userRoutes)
+app.use('/captins', captainRoutes)
 
 

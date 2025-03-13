@@ -2,6 +2,7 @@ import { User as userModel } from "../models/user.model.js";
 import { createUserService } from "../services/user.service.js";
 import { validationResult } from "express-validator";
 import { BlacklistToken as blacklistTokenModel } from "../models/blacklistToken.model.js";
+
 export const registerUser = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -11,6 +12,12 @@ export const registerUser = async (req, res) => {
 
     const { fullName, email, password } = req.body;
 
+    const isUserExist = await userModel.findOne({email})
+
+    if(isUserExist){
+      return res.status(400).json({message: "User already exist"})
+    }
+
     const hashedPassword = await userModel.hashPassword(password);
 
     const user = await createUserService({
@@ -19,6 +26,11 @@ export const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
     });
+
+    if(!user)
+    {
+      return res.status(400).json({message: "Error in creating User"})
+    }
 
     const token = user.generateAuthToken();
 
@@ -48,7 +60,7 @@ export const loginUser = async (req, res) => {
     }
 
     const isMatch = await user.comparePassword(password);
- 
+
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }

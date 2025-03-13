@@ -178,8 +178,9 @@ The request body should be a **JSON object** with the following fields:
   }
   ```
 
+---
 
-  # User Profile Endpoint
+# User Profile Endpoint
 
 ## 🌟 **Endpoint**: `/users/profile`
 
@@ -285,6 +286,113 @@ Authorization: Bearer jwt_token_here
   ```json
   {
     "message": "Authentication required"
+  }
+  ```
+
+---
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+# Captain Registration Endpoint
+
+## 🌟 **Endpoint**: `/captains/register`
+
+### **Method**: `POST`
+
+### **Description**:
+Welcome to the **Captain Registration Endpoint**! 🚀 This API allows you to register a new captain by submitting their details. Upon successful registration, you'll receive a **JWT token** and the captain's data, making it easy to authenticate and manage captain sessions.
+
+---
+
+## 📥 **Request Body**
+
+The request body should be a **JSON object** with the following fields:
+
+| Field             | Type   | Description                                                                 | Constraints                          |
+|-------------------|--------|-----------------------------------------------------------------------------|--------------------------------------|
+| `fullName`        | Object | Contains the captain's first and last name.                                 |                                      |
+| ↳ `firstName`     | String | The captain's first name.                                                   | Minimum length: 3 characters (required) |
+| ↳ `lastName`      | String | The captain's last name.                                                    | Minimum length: 3 characters (optional) |
+| `email`           | String | The captain's email address.                                                | Must be a valid email (required)     |
+| `password`        | String | The captain's password.                                                     | Minimum length: 6 characters (required) |
+| `vehicle`         | Object | Contains the captain's vehicle details.                                     |                                      |
+| ↳ `color`         | String | The vehicle's color.                                                        | Minimum length: 3 characters (required) |
+| ↳ `plate`         | String | The vehicle's plate number.                                                 | Minimum length: 3 characters (required) |
+| ↳ `capacity`      | Number | The vehicle's capacity.                                                     | Minimum: 1 (required)                |
+| ↳ `vehicleType`   | String | The type of vehicle (car, motorcycle, auto).                                | Must be one of: car, motorcycle, auto (required) |
+
+### **Example Request**:
+```json
+{
+  "fullName": {
+    "firstName": "Jane",
+    "lastName": "Doe"
+  },
+  "email": "jane.doe@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "red",
+    "plate": "XYZ123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+---
+
+## 📤 **Responses**
+
+### **201 Created** ✅
+- **Description**: Captain successfully registered.
+- **Response Body**:
+  ```json
+  {
+    "message": "Captain created successfully",
+    "token": "jwt_token_here",
+    "captain": {
+      "fullName": {
+        "firstName": "Jane",
+        "lastName": "Doe"
+      },
+      "email": "jane.doe@example.com",
+      "vehicle": {
+        "color": "red",
+        "plate": "XYZ123",
+        "capacity": 4,
+        "vehicleType": "car"
+      },
+      "_id": "captain_id_here",
+      "createdAt": "timestamp_here",
+      "updatedAt": "timestamp_here"
+    }
+  }
+  ```
+
+---
+
+### **400 Bad Request** ❌
+- **Description**: Validation error. Check your request body for missing or invalid fields.
+- **Response Body**:
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Error message here",
+        "param": "field_name",
+        "location": "body"
+      }
+    ]
   }
   ```
 
