@@ -4,8 +4,6 @@ This is the frontend for the Buber application, built using **React** and **Tail
 
 ---
 
-
-
 ## 🛠️ **Available Scripts**
 
 In the project directory, you can run the following commands:
@@ -94,7 +92,7 @@ The application uses **Tailwind CSS** for styling. The main CSS file, `index.css
 
 ## 🌐 **BrowserRouter**
 
-The application is wrapped in a `BrowserRouter` in `main.jsx` to enable client-side routing:
+The application is wrapped in a `BrowserRouter` and `UserContext` in `main.jsx` to enable client-side routing and user context:
 
 ```jsx
 import { StrictMode } from 'react';
@@ -102,12 +100,15 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
+import UserContext from './context/UserContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <UserContext>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </UserContext>
   </StrictMode>,
 );
 ```
