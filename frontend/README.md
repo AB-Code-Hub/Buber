@@ -31,6 +31,8 @@ The project relies on the following dependencies:
 | `react-router-dom`   | ^7.3.0    | Routing library for React.           |
 | `tailwindcss`        | ^3.4.17   | Utility-first CSS framework.         |
 | `vite`               | ^6.2.0    | Fast build tool for modern web apps. |
+| `axios`              | ^1.8.3    | Promise-based HTTP client for the browser and Node.js. |
+| `react-hot-toast`    | ^2.5.2    | React notifications library.         |
 
 ---
 
@@ -70,11 +72,13 @@ The application uses `react-router-dom` for client-side routing. The routes are 
 
 | Route               | Component        | Description                          |
 |---------------------|------------------|--------------------------------------|
-| `/`                | `Home.jsx`       | Home page for the application.       |
+| `/`                | `Start.jsx`      | Start page for the application.      |
 | `/login`           | `Login.jsx`      | Login page for riders.               |
 | `/signup`          | `Signup.jsx`     | Signup page for riders.              |
 | `/captain-login`   | `CaptainLogin.jsx` | Login page for captains.             |
 | `/captain-signup`  | `CaptainSignup.jsx` | Signup page for captains.            |
+| `/home`            | `Home.jsx`       | Home page for authenticated users.   |
+| `/user/logout`     | `UserLogout.jsx` | Logout page for users.               |
 
 ---
 
@@ -92,7 +96,7 @@ The application uses **Tailwind CSS** for styling. The main CSS file, `index.css
 
 ## 🌐 **BrowserRouter**
 
-The application is wrapped in a `BrowserRouter` and `UserContext` in `main.jsx` to enable client-side routing and user context:
+The application is wrapped in a `BrowserRouter`, `UserContext`, and `CaptainContext` in `main.jsx` to enable client-side routing and user context:
 
 ```jsx
 import { StrictMode } from 'react';
@@ -101,14 +105,17 @@ import './index.css';
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
 import UserContext from './context/UserContext.jsx';
+import CaptainContext from './context/CaptainContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <UserContext>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </UserContext>
+    <CaptainContext>
+      <UserContext>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </UserContext>
+    </CaptainContext>
   </StrictMode>,
 );
 ```

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 import { UserDataContext } from "../context/UserContext";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -10,13 +11,12 @@ const Signup = () => {
   const [lastName, setLastName] = useState("");
   const [userData, setUserData] = useState({});
 
+  const navigate = useNavigate();
+  const { user, setUser } = React.useContext(UserDataContext);
 
-  const navigate = useNavigate()
-  const {user, setUser} = React.useContext(UserDataContext)
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
-   const newUser = {
+    const newUser = {
       fullName: {
         firstName,
         lastName,
@@ -25,20 +25,24 @@ const Signup = () => {
       password,
     };
 
-    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/register`,
+        newUser
+      );
 
-    
-    console.log(res)
+      if (res.status === 201) {
+        const data = res.data;
+        setUser(data.user);
+        localStorage.setItem("token", data.token)
+        toast.success("User Registered Successfully");
+        console.log(data);
 
-    if(res.status === 201)
-    {
-      const data = res.data
-
-      setUser(data.user)
-
-      navigate('/home')
+        navigate("/home");
+      }
+    } catch (error) {
+      toast.error(`${error.response.data.errors[0].msg}`);
     }
-
 
     setEmail("");
     setPassword("");
@@ -120,10 +124,12 @@ const Signup = () => {
         </p>
       </div>
       <div>
-      <p className="text-[9px] leading-tight  xl:text-center lg:leading-normal lg:text-xs">
+        <p className="text-[9px] leading-tight  xl:text-center lg:leading-normal lg:text-xs">
           By registering with Buber, you agree to provide accurate information,
-          comply with platform rules and local laws, and accept <span className="underline text-blue-600 cursor-pointer">Buber's Privacy
-          Policy and Terms.</span>
+          comply with platform rules and local laws, and accept{" "}
+          <span className="underline text-blue-600 cursor-pointer">
+            Buber's Privacy Policy and Terms.
+          </span>
         </p>
       </div>
     </div>

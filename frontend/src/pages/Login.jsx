@@ -1,29 +1,50 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/UserContext";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState({});
 
-  const handleSubmit = (e) => {
+  const { user, setUser } = useContext(UserDataContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-      setUserData({
-        email:email,
-        password: password,
-      })
-      
-    setEmail("")
-    setPassword("")
+
+    const userData = {
+      email:email,
+      password: password,
+    }
+        try {
+
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
+
+            if(res.status === 200){
+              const data = res.data
+              setUser(data.user)
+              localStorage.setItem("token", data.token)
+              toast.success("Logged In successfully")
+              navigate('/home')
+
+            }
+
+
+        } catch (error) {
+          console.log(error);
+          
+          toast.error(error.response.data.message)
+        }
+    setEmail("");
+    setPassword("");
   };
   return (
     <div className="p-7 h-screen flex flex-col justify-between lg:pl-48 lg:pr-48 lg:pb-48">
       <div>
-        <img
-          className="w-16 mb-3 lg:w-24 "
-          src="./App-icon.png"
-          alt="logo"
-        />
+        <img className="w-16 mb-3 lg:w-24 " src="./App-icon.png" alt="logo" />
         <form
           onSubmit={(e) => {
             handleSubmit(e);
@@ -61,9 +82,12 @@ const Login = () => {
           </Link>
         </p>
       </div>
-      <div >
-        <Link to='/captain-login' className="bg-green-600 justify-center items-center text-white text-2xl flex  font-semibold mb-7 rounded px-4  py-2 w-full  placeholder:text-base">
-         Login as Captain
+      <div>
+        <Link
+          to="/captain-login"
+          className="bg-green-600 justify-center items-center text-white text-2xl flex  font-semibold mb-7 rounded px-4  py-2 w-full  placeholder:text-base"
+        >
+          Login as Captain
         </Link>
       </div>
     </div>
