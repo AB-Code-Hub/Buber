@@ -9,6 +9,8 @@ import Start from "./pages/Start";
 import { Toaster } from "react-hot-toast";
 import UserProtactWrapper from "./pages/UserProtactWrapper";
 import UserLogout from "./pages/UserLogout";
+import CaptainHome from "./pages/CaptainHome";
+import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
 
 const App = () => {
   return (
@@ -36,6 +38,16 @@ const App = () => {
               <UserLogout />
             </UserProtactWrapper>
           }
+        />
+
+        <Route 
+        path="/captain-home"
+        element= {
+          <CaptainProtectWrapper>
+            <CaptainHome />
+          </CaptainProtectWrapper>
+          
+        }
         />
       </Routes>
     </div>

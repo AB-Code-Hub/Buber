@@ -8,39 +8,49 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
 
   const { user, setUser } = useContext(UserDataContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
 
     const userData = {
-      email:email,
+      email: email,
       password: password,
-    }
-        try {
+    };
 
-            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
-
-            if(res.status === 200){
-              const data = res.data
-              setUser(data.user)
-              localStorage.setItem("token", data.token)
-              toast.success("Logged In successfully")
-              navigate('/home')
-
-            }
-
-
-        } catch (error) {
-          console.log(error);
-          
-          toast.error(error.response.data.message)
+    try {
+      const res = await toast.promise(
+        axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData),
+        {
+          loading: 'Logging in...',
+          success: 'Logged In successfully',
+          error: (error) => error.response.data.message,
         }
+      );
+
+      if (res.status === 200) {
+        const data = res.data;
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        navigate('/home');
+      }
+    } catch (error) {
+    }
+
+    finally {
+      setIsSubmitting(false)
+    }
+
     setEmail("");
     setPassword("");
   };
+
   return (
     <div className="p-7 h-screen flex flex-col justify-between lg:pl-48 lg:pr-48 lg:pb-48">
       <div>

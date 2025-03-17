@@ -10,7 +10,7 @@ export const registerCapValidation = [
     .withMessage("Password must be at least 6 character long"),
     body('vehicle.color').isLength({min: 3}).withMessage("Colour must be at least 3 characters long"),
     body('vehicle.plate').isLength({min: 3}).withMessage("Plate must be at least 3 characters long"),
-    body('vehicle.capacity').isInt({min: 1}).withMessage("Capacity must be at least 1 "),
+    body('vehicle.capacity').isInt({max: 15}).withMessage("Capacity must be at most 15"),
     body('vehicle.vehicleType').isIn(['car', 'motorcycle', 'auto']).withMessage("Invalid vehicle Type")
 ];
 

@@ -44,7 +44,7 @@ const captianSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "inactive"],
-      default: "inactive",
+      default: "active",
     },
 
     vehicle: {
@@ -63,7 +63,7 @@ const captianSchema = new mongoose.Schema(
       capacity: {
         type: Number,
         required: true,
-        min: [1, "Capacity must be at least 1"],
+        max: [15, "Capacity must be at most 15"],
       },
 
       vehicleType: {

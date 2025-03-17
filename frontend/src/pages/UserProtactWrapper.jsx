@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react";
-import { UserDataContext } from "../context/UserContext"; 
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserProtactWrapper = ({ children }) => {

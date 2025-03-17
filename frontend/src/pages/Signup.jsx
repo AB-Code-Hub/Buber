@@ -9,13 +9,14 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [userData, setUserData] = useState({});
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const navigate = useNavigate();
   const { user, setUser } = React.useContext(UserDataContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const newUser = {
       fullName: {
         firstName,
@@ -26,22 +27,27 @@ const Signup = () => {
     };
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/register`,
-        newUser
+      const res = await toast.promise(
+        axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser),
+        {
+          loading: 'Registering...',
+          success: 'User Registered Successfully',
+        }
       );
 
       if (res.status === 201) {
         const data = res.data;
         setUser(data.user);
-        localStorage.setItem("token", data.token)
-        toast.success("User Registered Successfully");
-        console.log(data);
-
+        localStorage.setItem("token", data.token);
         navigate("/home");
       }
     } catch (error) {
-      toast.error(`${error.response.data.errors[0].msg}`);
+      const errorMessage = error.response.data.errors ? error.response.data.errors[0].msg : error.response.data.message;
+      toast.error(errorMessage);
+    }
+
+    finally {
+      setIsSubmitting(false)
     }
 
     setEmail("");
@@ -111,8 +117,12 @@ const Signup = () => {
             placeholder="password"
             className="bg-[#eeeeee] mb-5 rounded px-4 border py-2 w-full text-lg placeholder:text-base"
           />
-          <button className="bg-[#111] text-white text-2xl font-semibold mb-5 rounded px-4  py-2 w-full  placeholder:text-base">
-            Signup
+          <button  
+          className="bg-[#111] text-white text-2xl font-semibold mb-5 rounded px-4  py-2 w-full  placeholder:text-base"
+          disabled= {isSubmitting} 
+          type="submit"   
+          >
+            {isSubmitting ? "Submitting" : "Signup"}
           </button>
         </form>
 

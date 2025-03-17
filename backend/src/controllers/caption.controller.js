@@ -2,6 +2,7 @@ import { BlacklistToken as blacklistTokenModel } from "../models/blacklistToken.
 import { Captain as captainModel } from "../models/captin.model.js";
 import { createCaptain as captainService } from "../services/captain.service.js";
 import { validationResult } from "express-validator";
+import { User as userModel } from "../models/user.model.js";
 
 export const registerCaptain = async (req, res) => {
   try {
@@ -20,6 +21,11 @@ export const registerCaptain = async (req, res) => {
     }
 
     const hashedPassword = await captainModel.hashPassword(password);
+
+    const isUserExists = await userModel.findOne({email: email})
+    if(isUserExists){
+      return res.status(400).json({message: "email already registred as User"})
+    }
 
     const captain = await captainService({
       firstName: fullName.firstName,
@@ -58,6 +64,11 @@ export const loginCaptain = async (req, res) => {
     }
 
     const { email, password } = req.body;
+
+    const isUserExists = await userModel.findOne({email: email})
+    if(isUserExists){
+      return res.status(400).json({message: "email registred as User"})
+    }
 
     const captain = await captainModel.findOne({ email }).select("+password");
 

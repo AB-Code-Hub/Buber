@@ -72,6 +72,13 @@ The request body should be a **JSON object** with the following fields:
     ]
   }
   ```
+- **Description**: Email already registered as a captain.
+- **Response Body**:
+  ```json
+  {
+    "message": "email already registred as Captain"
+  }
+  ```
 
 ---
 
@@ -152,6 +159,13 @@ The request body should be a **JSON object** with the following fields:
         "location": "body"
       }
     ]
+  }
+  ```
+- **Description**: Email registered as a captain.
+- **Response Body**:
+  ```json
+  {
+    "message": "email registred as Captain"
   }
   ```
 
@@ -367,7 +381,7 @@ The request body should be a **JSON object** with the following fields:
       },
       "email": "jane.doe@example.com",
       "password": "$2b$10$4QWJsqGBlNPUXezPwLyFxeBUDAqfpMpvPpN2bgFIhFpdHLxNN",
-      "status": "inactive",    // default
+      "status": "active",    // default
       "vehicle": {
         "color": "red",
         "plate": "XYZ123",
@@ -395,6 +409,13 @@ The request body should be a **JSON object** with the following fields:
         "location": "body"
       }
     ]
+  }
+  ```
+- **Description**: Email already registered as a user.
+- **Response Body**:
+  ```json
+  {
+    "message": "email already registred as User"
   }
   ```
 
@@ -477,6 +498,13 @@ The request body should be a **JSON object** with the following fields:
         "location": "body"
       }
     ]
+  }
+  ```
+- **Description**: Email registered as a user.
+- **Response Body**:
+  ```json
+  {
+    "message": "email registred as User"
   }
   ```
 
