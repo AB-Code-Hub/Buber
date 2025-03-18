@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CaptainDataContext } from "../context/CaptainContext";
 import axios from 'axios';
+import {Loader} from 'lucide-react'
 
 const CaptainProtectWrapper = ({ children }) => {
   const token = localStorage.getItem("token");
@@ -32,7 +33,7 @@ const CaptainProtectWrapper = ({ children }) => {
 
   if (isLoading) {
     return (
-      <>Loading...</>
+      <><Loader className="size-10 animate-spin" /></>
     );
   }
 
