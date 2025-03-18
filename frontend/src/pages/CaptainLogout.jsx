@@ -3,19 +3,18 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const UserLogout = () => {
+const CaptainLogout = () => {
   const navigate = useNavigate();
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/captain-login");
 
-    const logout = async () => {
+    const userLogout = async () => {
       try {
         toast.promise(
           axios.post(
-            `${import.meta.env.VITE_BASE_URL}/users/logout`,
+            `${import.meta.env.VITE_BASE_URL}/captins/logout`,
             {},
             {
               headers: {
@@ -23,21 +22,19 @@ const UserLogout = () => {
               },
             }
           ),
-
           {
             loading: "Logging out...",
-            success: "logout sucessfully",
+            success: "Logout successfully",
           }
         );
       } catch (error) {
-        // Handle error if needed
+        console.error(error);
       }
     };
 
-    logout();
+    userLogout();
   }, [navigate]);
-
-  return <div></div>;
+  return <div>CaptainLogout</div>;
 };
 
-export default UserLogout;
+export default CaptainLogout;

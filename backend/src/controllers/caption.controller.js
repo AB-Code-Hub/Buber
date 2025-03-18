@@ -14,6 +14,12 @@ export const registerCaptain = async (req, res) => {
 
     const { fullName, email, password, vehicle } = req.body;
 
+    const isUserExists = await userModel.findOne({email: email})
+
+    if(isUserExists){
+      return res.status(400).json({message: "email already registred as User"})
+    }
+
     const iscaptainexists = await captainModel.findOne({ email });
 
     if (iscaptainexists) {
@@ -22,10 +28,7 @@ export const registerCaptain = async (req, res) => {
 
     const hashedPassword = await captainModel.hashPassword(password);
 
-    const isUserExists = await userModel.findOne({email: email})
-    if(isUserExists){
-      return res.status(400).json({message: "email already registred as User"})
-    }
+   
 
     const captain = await captainService({
       firstName: fullName.firstName,
