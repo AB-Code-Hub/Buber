@@ -343,7 +343,7 @@ The request body should be a **JSON object** with the following fields:
 | ↳ `color`         | String | The vehicle's color.                                                        | Minimum length: 3 characters (required) |
 | ↳ `plate`         | String | The vehicle's plate number.                                                 | Minimum length: 3 characters (required) |
 | ↳ `capacity`      | Number | The vehicle's capacity.                                                     | Minimum: 1 (required)                |
-| ↳ `vehicleType`   | String | The type of vehicle (car, motorcycle, auto).                                | Must be one of: car, motorcycle, auto (required) |
+| ↳ `vehicleType`   | String | The type of vehicle (car, moto, auto).                                | Must be one of: car, motorcycle, auto (required) |
 
 ### **Example Request**:
 ```json
