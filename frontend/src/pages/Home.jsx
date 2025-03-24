@@ -3,12 +3,18 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ChevronDown } from "lucide-react";
 import LocationSearchPanle from "../components/LocationSearchPanle";
+import BookingPanel from "../components/BookingPanel";
+import ConfirmedVehiclePanel from "../components/ConfirmedVehiclePanel";
 const Home = () => {
   const [pickupLocation, setPickupLocation] = useState("");
   const [destination, setDestination] = useState("");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [vehiclePanel, setvehiclePanel] = useState(false);
+  const [confirmedVehiclePanel, setConfirmedVehiclePanel] = useState(false);
   const panelRef = useRef(null);
-  const panelCloseRef = useRef(null)
+  const panelCloseRef = useRef(null);
+  const vehiclePanelRef = useRef(null);
+  const confirmedVehiclePanelRef = useRef(null);
 
   const subimtHandler = async (e) => {
     e.preventDefault();
@@ -18,13 +24,13 @@ const Home = () => {
     function () {
       if (isPanelOpen) {
         gsap.to(panelRef.current, {
-          height: "70%",
+          height: "60%",
           padding: 24,
         });
 
         gsap.to(panelCloseRef.current, {
-          opacity: 1
-        })
+          opacity: 1,
+        });
       } else {
         gsap.to(panelRef.current, {
           height: "0%",
@@ -32,15 +38,49 @@ const Home = () => {
         });
 
         gsap.to(panelCloseRef.current, {
-          opacity: 0
-        })
+          opacity: 0,
+        });
       }
     },
     [isPanelOpen, panelCloseRef]
   );
 
+  useGSAP(
+    function () {
+      if (vehiclePanel) {
+        gsap.to(vehiclePanelRef.current, {
+          transform: "translateY(0%)",
+        });
+      } else {
+        gsap.to(vehiclePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehiclePanel, vehiclePanelRef]
+  );
+
+  useGSAP(
+    function () {
+      if (confirmedVehiclePanel) {
+        gsap.to(confirmedVehiclePanelRef.current, {
+          transform: "translateY(0%)",
+        });
+      } else {
+        gsap.to(confirmedVehiclePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [confirmedVehiclePanel, confirmedVehiclePanelRef]
+  );
+
   return (
-    <div className="relative h-screen w-screen overflow-x-hidden lg:overflow-x-hidden ">
+    <div
+      className={`relative h-screen w-screen overflow-x-hidden ${
+        isPanelOpen ? "overflow-x-auto" : "overflow-hidden"
+      } lg:overflow-x-hidden`}
+    >
       <img
         className="w-16 absolute left-3 top-3  "
         src="./App-icon.png"
@@ -99,16 +139,30 @@ const Home = () => {
                 setDestination(e.target.value);
               }}
               type="text"
-              className="bg-[#eee] text-lg font-normal px-12 py-3 rounded-lg mt-3  placeholder:text-lg w-full"
+              className="bg-[#eee] text-lg font-normal px-12 py-3 rounded-lg mt-3 lg:mb-10 placeholder:text-lg w-full"
               placeholder="Enter your destination"
             />
           </form>
         </div>
 
-        <div ref={panelRef} className="h-0 bg-white ">
-          <LocationSearchPanle />
+        <div ref={panelRef} className="h-0 lg:p-24 bg-white ">
+          <LocationSearchPanle
+            setIsPanelOpen={setIsPanelOpen}
+            setvehiclePanel={setvehiclePanel}
+          />
         </div>
       </div>
+
+      <BookingPanel
+        setvehiclePanel={setvehiclePanel}
+        vehiclePanelRef={vehiclePanelRef}
+        setConfirmedVehiclePanel={setConfirmedVehiclePanel}
+
+      />
+      <ConfirmedVehiclePanel
+        confirmedVehiclePanelRef={confirmedVehiclePanelRef}
+        setConfirmedVehiclePanel={setConfirmedVehiclePanel}
+      />
     </div>
   );
 };
