@@ -5,16 +5,24 @@ import { ChevronDown } from "lucide-react";
 import LocationSearchPanle from "../components/LocationSearchPanle";
 import BookingPanel from "../components/BookingPanel";
 import ConfirmedVehiclePanel from "../components/ConfirmedVehiclePanel";
+import DriverResponse from "../components/WaitingForDriver";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 const Home = () => {
   const [pickupLocation, setPickupLocation] = useState("");
   const [destination, setDestination] = useState("");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [vehiclePanel, setvehiclePanel] = useState(false);
   const [confirmedVehiclePanel, setConfirmedVehiclePanel] = useState(false);
+  const [vehicleFound, setVehicleFound] = useState(false);
+  const [waitForDriver, setWaitForDriver] = useState(false);
+
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const vehiclePanelRef = useRef(null);
   const confirmedVehiclePanelRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+  const waitForDriverRef = useRef(null);
 
   const subimtHandler = async (e) => {
     e.preventDefault();
@@ -73,6 +81,36 @@ const Home = () => {
       }
     },
     [confirmedVehiclePanel, confirmedVehiclePanelRef]
+  );
+
+  useGSAP(
+    function () {
+      if (vehicleFound) {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(0%)",
+        });
+      } else {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehicleFound]
+  );
+
+  useGSAP(
+    function () {
+      if (waitForDriver) {
+        gsap.to(waitForDriverRef.current, {
+          transform: "translateY(0%)",
+        });
+      } else {
+        gsap.to(waitForDriverRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [waitForDriver]
   );
 
   return (
@@ -157,11 +195,20 @@ const Home = () => {
         setvehiclePanel={setvehiclePanel}
         vehiclePanelRef={vehiclePanelRef}
         setConfirmedVehiclePanel={setConfirmedVehiclePanel}
-
       />
       <ConfirmedVehiclePanel
         confirmedVehiclePanelRef={confirmedVehiclePanelRef}
         setConfirmedVehiclePanel={setConfirmedVehiclePanel}
+        setVehicleFound={setVehicleFound}
+      />
+      <LookingForDriver
+        vehicleFoundRef={vehicleFoundRef}
+        setVehicleFound={setVehicleFound}
+      />
+
+      <WaitingForDriver
+        setWaitForDriver={setWaitForDriver}
+        waitForDriverRef={waitForDriverRef}
       />
     </div>
   );

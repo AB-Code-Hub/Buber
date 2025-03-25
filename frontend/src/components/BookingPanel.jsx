@@ -9,10 +9,10 @@ const BookingPanel = ({
   return (
     <div
       ref={vehiclePanelRef}
-      className="fixed w-full z-10 bottom-0 bg-white translate-y-full py-6 px-3 pt-12 p-3 "
+      className="fixed w-full z-10 bottom-0 bg-white translate-y-full py-6 px-3  p-3 "
     >
       <h5
-        className="p-3 text-center absolute top-0  left-1/2"
+        className="p-3 text-center absolute top-0  right-0"
         onClick={() => {
           setvehiclePanel(false);
         }}
@@ -23,13 +23,14 @@ const BookingPanel = ({
 
       <div
         onClick={() => {
+          setvehiclePanel(false)
           setConfirmedVehiclePanel(true);
         }}
         className="flex border-2 active:bg-gray-100 active:broder-2 active:border-black border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
       >
         <img
           className="size-20 object-contain"
-          src="./Buber-car.png"
+          src="./White-Car.png"
           alt="vehicle"
         />
         <div className=" w-1/2">
@@ -49,6 +50,7 @@ const BookingPanel = ({
 
       <div
         onClick={() => {
+          setvehiclePanel(false)
           setConfirmedVehiclePanel(true);
         }}
         className="flex border-2 active:bg-gray-100 active:broder-2 active:border-black border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
@@ -71,6 +73,7 @@ const BookingPanel = ({
 
       <div
         onClick={() => {
+          setvehiclePanel(false)
           setConfirmedVehiclePanel(true);
         }}
         className="flex border-2  active:bg-gray-100 active:broder-2 active:border-black  border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
