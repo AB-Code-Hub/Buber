@@ -7,8 +7,8 @@ import {Loader} from 'lucide-react'
 const CaptainProtectWrapper = ({ children }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const { captain, setCaptain } = useContext(CaptainDataContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const { setCaptain } = useContext(CaptainDataContext);
+  const [Loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!token) {
@@ -21,7 +21,7 @@ const CaptainProtectWrapper = ({ children }) => {
       }).then(response => {
         if (response.status === 200) {
           setCaptain(response.data.captain);
-          setIsLoading(false);
+          setLoading(false);
         }
       }).catch(err => {
         console.error(err);
@@ -31,9 +31,11 @@ const CaptainProtectWrapper = ({ children }) => {
     }
   }, [token, navigate, setCaptain]);
 
-  if (isLoading) {
+  if (Loading) {
     return (
-      <><Loader className="size-10 animate-spin" /></>
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <Loader className="w-16 h-16 text-black animate-spin" />
+      </div>
     );
   }
 

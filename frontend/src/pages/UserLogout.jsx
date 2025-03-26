@@ -23,14 +23,11 @@ const UserLogout = () => {
               },
             }
           ),
-
           {
-            loading: "Logging out...",
-            success: "logout sucessfully",
+            success: "Logout successfully",
           }
         );
-      } catch (error) {
-        // Handle error if needed
+      } catch {
       }
     };
 

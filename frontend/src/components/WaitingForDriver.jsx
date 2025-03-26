@@ -1,5 +1,6 @@
 import { ChevronDown, IndianRupee, LocateFixed, MapPin } from "lucide-react";
 import React from "react";
+import whiteCar from '../assets/White-Car.png'
 
 const WaitingForDriver = ({ setWaitForDriver, waitForDriverRef }) => {
   return (
@@ -19,7 +20,7 @@ const WaitingForDriver = ({ setWaitForDriver, waitForDriverRef }) => {
       <div className="flex items-center gap-x-14 justify-around">
         <img
           className="size-24 lg:size-40 object-contain"
-          src="./White-Car.png"
+          src={whiteCar}
           alt="vehicle"
         />
 

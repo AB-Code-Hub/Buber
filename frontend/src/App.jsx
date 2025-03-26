@@ -12,17 +12,62 @@ import UserLogout from "./pages/UserLogout";
 import CaptainHome from "./pages/CaptainHome";
 import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
 import CaptainLogout from "./pages/CaptainLogout";
+import Riding from "./pages/Riding";
+import PublicRouteWrapper from "./pages/PublicRouteWrapper";
 
 const App = () => {
   return (
     <div>
       <Toaster />
       <Routes>
-        <Route path="/" element={<Start />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/captain-login" element={<CaptainLogin />} />
-        <Route path="/captain-signup" element={<CaptainSignup />} />
+        <Route
+          path="/"
+          element={
+            <PublicRouteWrapper>
+              <Start />
+            </PublicRouteWrapper>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRouteWrapper>
+              <Login />
+            </PublicRouteWrapper>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRouteWrapper>
+              <Signup />
+            </PublicRouteWrapper>
+          }
+        />
+        <Route
+          path="/captain-login"
+          element={
+            <PublicRouteWrapper>
+              <CaptainLogin />
+            </PublicRouteWrapper>
+          }
+        />
+        <Route
+          path="/captain-signup"
+          element={
+            <PublicRouteWrapper>
+              <CaptainSignup />
+            </PublicRouteWrapper>
+          }
+        />
+        <Route
+          path="/riding"
+          element={
+            <UserProtactWrapper>
+              <Riding />
+            </UserProtactWrapper>
+          }
+        />
         <Route
           path="/home"
           element={
@@ -41,23 +86,22 @@ const App = () => {
           }
         />
 
-        <Route 
-        path="/captain-home"
-        element= {
-          <CaptainProtectWrapper>
-            <CaptainHome />
-          </CaptainProtectWrapper>
-          
-        }
+        <Route
+          path="/captain-home"
+          element={
+            <CaptainProtectWrapper>
+              <CaptainHome />
+            </CaptainProtectWrapper>
+          }
         />
 
-        <Route 
-        path="/captain/logout"
-        element ={
-          <CaptainProtectWrapper>
-            <CaptainLogout />
-          </CaptainProtectWrapper>
-        }
+        <Route
+          path="/captain/logout"
+          element={
+            <CaptainProtectWrapper>
+              <CaptainLogout />
+            </CaptainProtectWrapper>
+          }
         />
       </Routes>
     </div>

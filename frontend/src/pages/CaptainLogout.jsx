@@ -27,8 +27,8 @@ const CaptainLogout = () => {
             success: "Logout successfully",
           }
         );
-      } catch (error) {
-        console.error(error);
+      } catch {
+        // console.error(error);
       }
     };
 

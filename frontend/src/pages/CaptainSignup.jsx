@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CaptainDataContext } from "../context/CaptainContext";
 import toast from "react-hot-toast";
+import driverSignup from '../assets/Driver_Signup.png'
 
 const CaptainSignup = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,14 @@ const CaptainSignup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate()
-  const { captain, setCaptain } = React.useContext(CaptainDataContext);
+  const { setCaptain } = React.useContext(CaptainDataContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/captain-home");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,7 +84,7 @@ const CaptainSignup = () => {
       <div>
         <img
           className="w-24 lg:w-28 mb-2 "
-          src="./Driver_Signup.png"
+          src={driverSignup}
           alt="logo"
         />
         <form

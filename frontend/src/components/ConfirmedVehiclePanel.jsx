@@ -1,5 +1,6 @@
 import { BadgeIndianRupee, ChevronDown, IndianRupee, LocateFixed, MapPin, ReceiptIndianRupee } from "lucide-react";
 import React from "react";
+import whiteCar from '../assets/White-Car.png'
 
 const ConfirmedVehiclePanel = ({
   confirmedVehiclePanelRef,
@@ -26,7 +27,7 @@ const ConfirmedVehiclePanel = ({
       <div className="flex flex-col justify-between items-center gap-2">
         <img
           className="size-40 lg:size-44 object-contain"
-          src="./White-Car.png"
+          src={whiteCar}
           alt="vehicle"
         />
         <div className="w-full mt-5 ">

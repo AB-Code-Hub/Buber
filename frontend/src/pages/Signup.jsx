@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserDataContext } from "../context/UserContext";
 import toast from "react-hot-toast";
+import userSignup from '../assets/user_signup.png'
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const Signup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const navigate = useNavigate();
-  const { user, setUser } = React.useContext(UserDataContext);
+  const { setUser } = React.useContext(UserDataContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +61,7 @@ const Signup = () => {
       <div>
         <img
           className="w-16 mb-3 lg:w-20 lg:ml-1"
-          src="./user_signup.png"
+          src={userSignup}
           alt="logo"
         />
         <form

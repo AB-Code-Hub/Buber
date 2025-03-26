@@ -3,21 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import appIcon from '../assets/App-icon.png'
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-
-  const { user, setUser } = useContext(UserDataContext);
+  const { setUser } = useContext(UserDataContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
 
     const userData = {
       email: email,
@@ -40,7 +38,7 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         navigate('/home');
       }
-    } catch (error) {
+    } catch {
     }
 
     finally {
@@ -54,7 +52,7 @@ const Login = () => {
   return (
     <div className="p-7 h-screen flex flex-col justify-between lg:pl-48 lg:pr-48 lg:pb-48">
       <div>
-        <img className="w-16 mb-3 lg:w-24 " src="./App-icon.png" alt="logo" />
+        <img className="w-16 mb-3 lg:w-24 " src={appIcon} alt="logo" />
         <form
           onSubmit={(e) => {
             handleSubmit(e);
@@ -80,8 +78,11 @@ const Login = () => {
             placeholder="password"
             className="bg-[#eeeeee] mb-7 rounded px-4 border py-2 w-full text-lg placeholder:text-base"
           />
-          <button className="bg-[#111] text-white text-2xl font-semibold mb-5 rounded px-4  py-2 w-full  placeholder:text-base">
-            Login
+          <button 
+            className="bg-[#111] text-white text-2xl font-semibold mb-5 rounded px-4  py-2 w-full  placeholder:text-base"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
 

@@ -8,6 +8,9 @@ import ConfirmedVehiclePanel from "../components/ConfirmedVehiclePanel";
 import DriverResponse from "../components/WaitingForDriver";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
+import appIcon from '../assets/App-icon.png'
+import homeMap from '../assets/home-map.png'
+
 const Home = () => {
   const [pickupLocation, setPickupLocation] = useState("");
   const [destination, setDestination] = useState("");
@@ -121,14 +124,14 @@ const Home = () => {
     >
       <img
         className="w-16 absolute left-3 top-3  "
-        src="./App-icon.png"
+        src={appIcon}
         alt="logo"
       />
 
       <div className="h-screen w-screen">
         <img
           className="-z-10 w-full h-full object-cover "
-          src="./home-map.png"
+          src={homeMap}
           alt="map-image"
         />
       </div>

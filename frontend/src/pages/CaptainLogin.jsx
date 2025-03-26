@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CaptainDataContext } from "../context/CaptainContext";
 import toast from "react-hot-toast";
+import driveLogo from '../assets/drive-logo.png'
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setisSubmitting] = useState(false);
   const navigate = useNavigate();
-  const { captain, setCaptain } = React.useContext(CaptainDataContext);
+  const { setCaptain } = React.useContext(CaptainDataContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/captain-home");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +46,7 @@ const CaptainLogin = () => {
         setCaptain(data.captain); 
         navigate("/captain-home");
       }
-    } catch (error) {
+    } catch {
     } finally {
       setisSubmitting(false);
       
@@ -53,7 +61,7 @@ const CaptainLogin = () => {
       <div>
         <img
           className="w-20  mb-2 lg:w-28 "
-          src="./drive-logo.png"
+          src={driveLogo}
           alt="logo"
         />
         <form

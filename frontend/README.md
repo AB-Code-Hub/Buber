@@ -18,6 +18,9 @@ Builds the app for production to the `dist` folder.
 ### `npm run preview`
 Previews the production build locally.
 
+### `npm run lint`
+Runs ESLint to check for code quality issues.
+
 ---
 
 ## 📦 **Dependencies**
@@ -33,6 +36,10 @@ The project relies on the following dependencies:
 | `vite`               | ^6.2.0    | Fast build tool for modern web apps. |
 | `axios`              | ^1.8.3    | Promise-based HTTP client for the browser and Node.js. |
 | `react-hot-toast`    | ^2.5.2    | React notifications library.         |
+| `gsap`               | ^3.12.7   | GreenSock Animation Platform for smooth animations. |
+| `@gsap/react`        | ^2.1.2    | React bindings for GSAP.             |
+| `lucide-react`       | ^0.482.0  | Beautiful & consistent icons.        |
+| `dotenv`             | ^16.4.7   | Environment variables management.    |
 
 ---
 
@@ -63,6 +70,7 @@ The project includes the following configuration files:
 - **`tailwind.config.js`**: Configuration for Tailwind CSS.
 - **`vite.config.js`**: Configuration for Vite.
 - **`eslint.config.js`**: Configuration for ESLint.
+- **`.env`**: Environment variables configuration.
 
 ---
 
@@ -70,15 +78,22 @@ The project includes the following configuration files:
 
 The application uses `react-router-dom` for client-side routing. The routes are defined in `App.jsx`:
 
-| Route               | Component        | Description                          |
-|---------------------|------------------|--------------------------------------|
-| `/`                | `Start.jsx`      | Start page for the application.      |
-| `/login`           | `Login.jsx`      | Login page for riders.               |
-| `/signup`          | `Signup.jsx`     | Signup page for riders.              |
-| `/captain-login`   | `CaptainLogin.jsx` | Login page for captains.             |
-| `/captain-signup`  | `CaptainSignup.jsx` | Signup page for captains.            |
-| `/home`            | `Home.jsx`       | Home page for authenticated users.   |
-| `/user/logout`     | `UserLogout.jsx` | Logout page for users.               |
+| Route               | Component            | Description                          |
+|---------------------|----------------------|--------------------------------------|
+| `/`                | `Start.jsx`          | Start page for the application.      |
+| `/login`           | `Login.jsx`          | Login page for riders.               |
+| `/signup`          | `Signup.jsx`         | Signup page for riders.              |
+| `/captain-login`   | `CaptainLogin.jsx`   | Login page for captains.             |
+| `/captain-signup`  | `CaptainSignup.jsx`  | Signup page for captains.            |
+| `/home`            | `Home.jsx`           | Home page for authenticated riders.  |
+| `/riding`          | `Riding.jsx`         | Active ride interface for riders.    |
+| `/captain-home`    | `CaptainHome.jsx`    | Dashboard for captains.              |
+| `/user/logout`     | `UserLogout.jsx`     | Logout page for riders.              |
+| `/captain/logout`  | `CaptainLogout.jsx`  | Logout page for captains.            |
+
+All protected routes are wrapped with their respective protection components:
+- `UserProtactWrapper`: Protects rider-specific routes
+- `CaptainProtectWrapper`: Protects captain-specific routes
 
 ---
 
@@ -94,31 +109,25 @@ The application uses **Tailwind CSS** for styling. The main CSS file, `index.css
 
 ---
 
-## 🌐 **BrowserRouter**
 
-The application is wrapped in a `BrowserRouter`, `UserContext`, and `CaptainContext` in `main.jsx` to enable client-side routing and user context:
 
-```jsx
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.jsx';
-import { BrowserRouter } from 'react-router-dom';
-import UserContext from './context/UserContext.jsx';
-import CaptainContext from './context/CaptainContext.jsx';
+## 🔒 **Authentication & Protection**
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <CaptainContext>
-      <UserContext>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </UserContext>
-    </CaptainContext>
-  </StrictMode>,
-);
-```
+The application implements a robust authentication system with:
+- Separate authentication flows for riders and captains
+- Protected routes using wrapper components
+- Secure logout functionality for both user types
+- Context-based state management for user sessions
 
 ---
+
+## 🎯 **Features**
+
+- **User Authentication**: Separate login/signup flows for riders and captains
+- **Protected Routes**: Secure access to user-specific features
+- **Real-time Updates**: Live ride status updates
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Smooth Animations**: GSAP integration for enhanced user experience
+- **Toast Notifications**: User feedback using react-hot-toast
+- **Icon System**: Consistent iconography with lucide-react
 

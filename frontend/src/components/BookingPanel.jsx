@@ -1,5 +1,8 @@
 import { ChevronDown, User } from "lucide-react";
 import React from "react";
+import whiteCar from '../assets/White-Car.png'
+import buberBike from '../assets/Buber-bike.png'
+import buberAuto from '../assets/Buber-auto.png'
 
 const BookingPanel = ({
   vehiclePanelRef,
@@ -30,7 +33,7 @@ const BookingPanel = ({
       >
         <img
           className="size-20 object-contain"
-          src="./White-Car.png"
+          src={whiteCar}
           alt="vehicle"
         />
         <div className=" w-1/2">
@@ -55,7 +58,7 @@ const BookingPanel = ({
         }}
         className="flex border-2 active:bg-gray-100 active:broder-2 active:border-black border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
       >
-        <img className="size-16 object-contain" src="./Buber-bike.png" alt="" />
+        <img className="size-16 object-contain" src={buberBike} alt="" />
         <div className=" w-1/2">
           <h4 className="font-medium text-lg flex">
             Moto{" "}
@@ -78,7 +81,7 @@ const BookingPanel = ({
         }}
         className="flex border-2  active:bg-gray-100 active:broder-2 active:border-black  border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
       >
-        <img className="size-16 object-contain" src="./Buber-auto.png" alt="" />
+        <img className="size-16 object-contain" src={buberAuto} alt="" />
         <div className=" w-1/2">
           <h4 className="font-medium text-lg flex">
             BuberAuto{" "}
