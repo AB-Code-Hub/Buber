@@ -8,7 +8,7 @@ const CaptainDetails = () => {
       <div className="flex justify-between items-center mt-3 lg:mt-0 lg:px-3">
         <div className="flex justify-start items-center gap-3">
           <img
-            className="size-10 object-cover rounded-full"
+            className="size-14 object-cover rounded-full"
             src="https://rahahome.com/wp-content/uploads/2022/11/2-min-scaled.jpg"
             alt="drive image"
           />
