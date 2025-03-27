@@ -109,8 +109,6 @@ The application uses **Tailwind CSS** for styling. The main CSS file, `index.css
 
 ---
 
-
-
 ## 🔒 **Authentication & Protection**
 
 The application implements a robust authentication system with:
@@ -130,4 +128,26 @@ The application implements a robust authentication system with:
 - **Smooth Animations**: GSAP integration for enhanced user experience
 - **Toast Notifications**: User feedback using react-hot-toast
 - **Icon System**: Consistent iconography with lucide-react
+
+## ⚠️ **Important Notes**
+
+### Image Copyrights
+All images used in this project are for demonstration purposes only. Some images may be subject to copyright restrictions. Please ensure you have the proper rights and licenses before using any images in a production environment.
+
+### Responsiveness Disclaimer
+The current implementation of the frontend may not be fully responsive across all device sizes. While basic responsive design principles have been implemented using Tailwind CSS, there are areas that could be improved for better mobile and tablet experiences. Future updates will focus on enhancing the responsive design.
+
+### Recent Changes
+- Added GSAP animations for smoother transitions
+- Implemented ride confirmation popup system
+- Enhanced captain dashboard interface
+- Added real-time ride status updates
+- Improved user authentication flow
+
+## 🔄 **Areas for Improvement**
+- Mobile responsiveness optimization
+- Tablet-specific layouts
+- Touch-friendly interactions
+- Performance optimization for animations
+- Cross-browser compatibility testing
 

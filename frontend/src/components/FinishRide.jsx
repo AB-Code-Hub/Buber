@@ -1,9 +1,9 @@
 import { LocateFixed, MapPin, IndianRupee, ChevronUp, ChevronDown } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const FinishRide = ({finishRidePanelRef, setFinishRidePanel, finishRidePanel}) => {
- 
+  const [isPaymentDone, setIsPaymentDone] = useState(false);
 
   return (
     <div
@@ -19,8 +19,8 @@ const FinishRide = ({finishRidePanelRef, setFinishRidePanel, finishRidePanel}) =
       >
         <ChevronDown size={40} />
       </h5>
-    <h2 className="text-2xl font-semibold mb-5  capitalize">
-      Finish Ride
+    <h2 className="text-2xl font-semibold mb-5 mt-5 capitalize">
+      Finish This Ride
     </h2>
 
     <div className="flex justify-between items-center mt-4  p-3 lg:p-2  bg-gray-100 border-2 border-gray-300 rounded-lg">
@@ -63,17 +63,29 @@ const FinishRide = ({finishRidePanelRef, setFinishRidePanel, finishRidePanel}) =
       </div>
 
       <div className="w-full mt-6">
-      
-          <Link
-          
-            to="/captain-ride"
-            className=" flex justify-center w-full lg:w-1/2  lg:mt-1 text-white p-3 font-semibold rounded-xl text-xl bg-green-500"
-          >
-            Complete Ride
-          </Link>
-
-        
-       
+        <div className="flex items-center gap-2 mb-4">
+          <input
+            type="checkbox"
+            id="payment-done"
+            checked={isPaymentDone}
+            onChange={(e) => setIsPaymentDone(e.target.checked)}
+            className="w-5 h-5"
+          />
+          <label htmlFor="payment-done" className="text-lg font-medium">
+            Payment is done
+          </label>
+        </div>
+        <Link
+          to="/captain-home"
+          className={`flex justify-center w-full lg:w-1/2 lg:mt-1 text-white p-3 font-semibold rounded-xl text-xl ${
+            isPaymentDone ? "bg-green-600" : "bg-gray-400 cursor-not-allowed"
+          }`}
+          onClick={(e) => {
+            if (!isPaymentDone) e.preventDefault();
+          }}
+        >
+          Finish Ride
+        </Link>
       </div>
     </div>
   </div>

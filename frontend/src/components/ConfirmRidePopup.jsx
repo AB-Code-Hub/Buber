@@ -16,7 +16,7 @@ const ConfirmRidePopup = ({
   return (
     <div
       ref={confirmRidePopupRef}
-      className="fixed w-full z-10 bottom-0 h-screen -ml-3 bg-white translate-y-full py-3 px-4"
+      className="fixed w-full z-10 bottom-0 sm:h-[90%] md:h-[60%] lg:h-[80%] -ml-3 lg:-ml-12  bg-white translate-y-full py-3 px-4"
     >
       <h2 className="text-2xl font-semibold mb-5  capitalize">
         Confirm Ride Request!{" "}
@@ -61,7 +61,7 @@ const ConfirmRidePopup = ({
           </div>
         </div>
 
-        <div className="w-full mt-6">
+        <div className="w-full mt-6 lg:mt-1">
           <form
             onSubmit={(event) => {
               submitHandler(event);
@@ -72,11 +72,11 @@ const ConfirmRidePopup = ({
             value={OTP}
               type="text"
               placeholder="Enter OTP"
-              className="bg-[#eee] text-xl font-mono font-medium rounded-lg px-6 py-4 focus:outline-gray-400  w-full"
+              className="bg-[#eee] lg:mb-3 text-xl font-mono font-medium rounded-lg px-6 py-4 lg:py-3 focus:outline-gray-400  w-full"
             />
             <Link
               to="/captain-ride"
-              className=" flex justify-center w-full lg:w-1/2 mt-5 lg:mt-1 text-white p-3 font-semibold rounded-xl text-xl bg-green-500"
+              className=" flex justify-center w-full  lg:mb-3 mt-5 lg:mt-1 text-white p-3 font-semibold rounded-xl text-xl bg-green-500"
             >
               Confirm Ride
             </Link>
@@ -86,7 +86,7 @@ const ConfirmRidePopup = ({
                 setConfirmRidePopup(false);
                 setRidePopupPanle(false);
               }}
-              className="w-full mt-2 lg:w-1/2 text-white p-3 font-semibold rounded-xl text-xl bg-red-500"
+              className="w-full mt-2  text-white p-3 font-semibold rounded-xl text-xl bg-red-500"
             >
               Cancel Ride
             </button>

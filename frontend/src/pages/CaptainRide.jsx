@@ -15,15 +15,15 @@ const CaptainRide = () => {
       useGSAP(() => {
         if (finishRidePanel) {
           gsap.to(finishRidePanelRef.current, {
-            height: "70%",
+            height: "80%",
             padding: 24,
-            translateY: 0, // Ensure the panel is visible
+            translateY: 0, 
           });
         } else {
           gsap.to(finishRidePanelRef.current, {
             height: "0%",
             padding: 0,
-            translateY: "100%", // Hide the panel
+            translateY: "100%", 
           });
         }
       }, [finishRidePanel])
