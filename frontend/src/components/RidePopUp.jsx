@@ -5,6 +5,7 @@ const RidePopUp = ({
   ridePopupPanelRef,
   setRidePopupPanle,
   setConfirmRidePopup,
+ 
 }) => {
   return (
     <div
