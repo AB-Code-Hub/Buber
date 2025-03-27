@@ -1,5 +1,6 @@
 import { LocateFixed, MapPin, IndianRupee } from 'lucide-react';
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const ConfirmRidePopup = ({confirmRidePopupRef, setConfirmRidePopup, setRidePopupPanle }) => {
   return (
@@ -51,9 +52,9 @@ const ConfirmRidePopup = ({confirmRidePopupRef, setConfirmRidePopup, setRidePopu
       </div>
 
       <div className="w-full flex justify-center items-center">
-        <button className=" w-full lg:w-1/2 mt-5 lg:mt-1 text-white p-2 font-semibold rounded-xl text-xl bg-green-500">
-          Confirm
-        </button>
+        <Link to="/captain-ride" className=" flex justify-center w-full lg:w-1/2 mt-5 lg:mt-1 text-white p-3 font-semibold rounded-xl text-xl bg-green-500">
+          Confirm Ride
+        </Link>
       </div>
 
       <div className="w-full lg flex justify-center items-center">
@@ -62,9 +63,9 @@ const ConfirmRidePopup = ({confirmRidePopupRef, setConfirmRidePopup, setRidePopu
             setConfirmRidePopup(false);
             setRidePopupPanle(false);
           }}
-          className="w-full mt-2 lg:w-1/2 text-white p-2 font-semibold rounded-xl text-xl bg-red-500"
+          className="w-full mt-2 lg:w-1/2 text-white p-3 font-semibold rounded-xl text-xl bg-red-500"
         >
-          Cancel
+          Cancel Ride
         </button>
       </div>
     </div>
