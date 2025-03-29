@@ -44,7 +44,7 @@ const captianSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "inactive"],
-      default: "active",
+      default: "inactive",
     },
 
     vehicle: {
@@ -74,7 +74,7 @@ const captianSchema = new mongoose.Schema(
     },
 
     location: {
-      lat: {
+      ltd: {
         type: Number,
       },
 

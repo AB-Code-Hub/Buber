@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import homeMap from "../assets/home-map.png";
 import { LogOut } from "lucide-react";
@@ -12,21 +12,67 @@ import { useSocket } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
 
 
-
-
-
-
-
-
-
 const CaptainHome = () => {
-
 
   const [ridePopupPanle, setRidePopupPanle] = useState(true)
   const [confirmRidePopup, setConfirmRidePopup] = useState(false)
   const ridePopupPanelRef = useRef(null)
   const confirmRidePopupRef = useRef(null)
+  const {captain} = useContext(CaptainDataContext)
+  const {  sendMessage} = useSocket()
 
+  useEffect(()=>{
+
+    
+     if(captain){
+      sendMessage("join", {userId: captain._id, userType: 'captain'})
+     }
+
+    // Set up interval to send captain location updates every 10 seconds
+  
+    
+  },[captain, sendMessage])
+
+  useEffect(() => {
+    if (!captain) return;
+    
+    // Function to get current location and send to server
+    const sendLocationUpdate = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            sendMessage("update-location-captain", {
+              userId: captain._id,
+              location: {
+                ltd: latitude,
+                lng: longitude
+              }
+            });
+            console.log("Location updated:", latitude, longitude);
+          },
+          (error) => {
+            console.error("Error getting location:", error.message);
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser");
+      }
+    };
+    
+    // Send initial location update
+    sendLocationUpdate();
+    
+    // Set up interval for regular updates
+    const locationInterval = setInterval(sendLocationUpdate, 10000);
+    
+    // Clean up interval on component unmount
+    return () => clearInterval(locationInterval);
+  }, [captain, sendMessage]);
+
+
+
+  
   useGSAP(
     function () {
       if (ridePopupPanle) {

@@ -44,7 +44,7 @@ const Home = () => {
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
 
-  const {sendMessage, onMessage, socket} = useSocket()
+  const {sendMessage, } = useSocket()
   const {user} = useContext(UserDataContext)
 
 

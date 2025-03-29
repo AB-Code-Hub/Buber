@@ -6,6 +6,6 @@ import { initializeSocket } from './socket.js'
 const server = http.createServer(app)
 const io = initializeSocket(server)
 
-server.listen(PORT || 3000, () => {
+server.listen(PORT || 3000, () => {  
     console.log(`server is running on port ${PORT}`)
 })

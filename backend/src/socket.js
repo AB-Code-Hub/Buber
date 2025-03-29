@@ -34,12 +34,58 @@ export const initializeSocket = (server) => {
                     throw new Error('User not found');
                 }
 
-                // socket.join(user.role);
-                // console.log(`User ${user.fullName.firstName} joined ${user.role} room`);
+                
             } catch (error) {
                 console.error('Error joining room:', error);
             }
-        });
+        }); 
+
+
+        socket.on('update-location-captain', async (data) => {
+            const {userId,  location} = data;
+                console.log(`User ${userId} updated location ${location}`);
+
+            
+            // Validate location data
+            if (!location || typeof location !== 'object') {
+                console.error('Invalid location data:', location);
+                socket.emit('error', { message: 'Invalid location data format' });
+                return;
+            }
+
+            // Check if location has required coordinates
+            if (location.ltd === undefined || location.lng === undefined) {
+                console.error('Missing coordinates in location data:', location);
+                socket.emit('error', { message: 'Location must include ltd and lng coordinates' });
+                return;
+            }
+
+            // Validate coordinate types
+            if (typeof location.ltd !== 'number' || typeof location.lng !== 'number') {
+                console.error('Coordinates must be numbers:', location);
+                socket.emit('error', { message: 'Coordinates must be numbers' });
+                return;
+            }
+
+            // Validate coordinate ranges
+            if (location.ltd < -90 || location.ltd > 90 || location.lng < -180 || location.lng > 180) {
+                console.error('Coordinates out of valid range:', location);
+                socket.emit('error', { message: 'Coordinates out of valid range' });
+                return;
+            }
+
+            console.log(`Updating captain ${userId} location to ${location}`);
+
+            // Update captain location
+                await captainModel.findByIdAndUpdate(userId, {location: {
+                    ltd: location.ltd,
+                    lng: location.lng,
+                }}, {new: true});
+
+            console.log(`Captain ${userId} location updated to ${location}`);
+            
+            
+        })
                 
 
         socket.on('disconnect', () => {
