@@ -8,6 +8,8 @@ const BookingPanel = ({
   vehiclePanelRef,
   setvehiclePanel,
   setConfirmedVehiclePanel,
+  fare,
+  setVehicleType,
 }) => {
   return (
     <div
@@ -28,6 +30,7 @@ const BookingPanel = ({
         onClick={() => {
           setvehiclePanel(false)
           setConfirmedVehiclePanel(true);
+          setVehicleType("car");
         }}
         className="flex border-2 active:bg-gray-100 active:broder-2 active:border-black border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
       >
@@ -48,13 +51,14 @@ const BookingPanel = ({
           <p className="font-normal text-sm">Affordable, compact rides</p>
         </div>
 
-        <h2 className="text-xl font-semibold">₹205</h2>
+        <h2 className="text-xl font-semibold">₹{fare.car}</h2>
       </div>
 
       <div
         onClick={() => {
           setvehiclePanel(false)
           setConfirmedVehiclePanel(true);
+          setVehicleType("moto");
         }}
         className="flex border-2 active:bg-gray-100 active:broder-2 active:border-black border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
       >
@@ -71,13 +75,14 @@ const BookingPanel = ({
           <p className="font-normal text-sm">Affordable, motorcycles rides</p>
         </div>
 
-        <h2 className="text-xl font-semibold">₹105</h2>
+        <h2 className="text-xl font-semibold">₹{fare.moto}</h2>
       </div>
 
       <div
         onClick={() => {
           setvehiclePanel(false)
           setConfirmedVehiclePanel(true);
+          setVehicleType("auto");
         }}
         className="flex border-2  active:bg-gray-100 active:broder-2 active:border-black  border-gray-200 rounded-xl mb-2 px-3 py-6 w-full items-center justify-between"
       >
@@ -94,7 +99,7 @@ const BookingPanel = ({
           <p className="font-normal text-sm">Affordable, Auto rides</p>
         </div>
 
-        <h2 className="text-xl font-semibold">₹155</h2>
+        <h2 className="text-xl font-semibold">₹{fare.auto}</h2>
       </div>
     </div>
   );

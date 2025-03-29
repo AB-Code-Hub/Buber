@@ -6,15 +6,22 @@ const ConfirmedVehiclePanel = ({
   confirmedVehiclePanelRef,
   setConfirmedVehiclePanel,
   setVehicleFound,
-  
+  createRide,
+  pickupLocation,
+  destination,
+  fare,
+  vehicleType
 }) => {
+  const pickupCity = pickupLocation.split(',')[0];
+  const destinationCity = destination.split(',')[0];
+
   return (
     <div
       ref={confirmedVehiclePanelRef}
-      className="fixed w-full z-10 bottom-0 bg-white translate-y-full py-3 px-3  p-3"
+      className="fixed w-full z-10 bottom-0 bg-white translate-y-full py-3 px-3 p-3 opacity-0 pointer-events-none"
     >
       <h5
-        className="p-3 text-center absolute top-0  right-0"
+        className="p-3 text-center absolute top-0 right-0 cursor-pointer"
         onClick={() => {
           setConfirmedVehiclePanel(false);
         }}
@@ -32,24 +39,28 @@ const ConfirmedVehiclePanel = ({
         />
         <div className="w-full mt-5 ">
           <div className="flex items-center gap-5 p-2 border-b-2">
-            <LocateFixed   />
+            <LocateFixed />
             <div>
-              <h3 className="text-lg font-medium">Ghaziabad</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Delhi NCR, India</p>
+              <h3 className="text-lg font-medium">{pickupCity}</h3>
+              <p className="text-sm -mt-1 text-gray-600">
+                {pickupLocation}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 border-b-2">
-            <MapPin color="white" fill="black"  />
+            <MapPin color="white" fill="black" />
             <div>
-              <h3 className="text-lg font-medium">123 Main St</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Springfield, USA</p>
+              <h3 className="text-lg font-medium">{destinationCity}</h3>
+              <p className="text-sm -mt-1 text-gray-600">
+                {destination}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 ">
-            <IndianRupee  />
+            <IndianRupee />
             <div>
-              <h3 className="text-lg font-medium">₹155</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Cash Cash</p>
+              <h3 className="text-lg font-medium">₹{fare[vehicleType]}</h3>
+              <p className="text-sm -mt-1 text-gray-600">Cash</p>
             </div>
           </div>
         </div>
@@ -58,8 +69,9 @@ const ConfirmedVehiclePanel = ({
           onClick={() => {
             setConfirmedVehiclePanel(false)
             setVehicleFound(true)
+            createRide()
           }}
-        className="w-full mt-5 text-white p-2 font-semibold rounded-xl text-lg bg-black">
+          className="w-full mt-5 text-white p-2 font-semibold rounded-xl text-lg bg-black">
           Confirm Ride
         </button>
       </div>

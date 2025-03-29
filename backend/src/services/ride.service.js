@@ -2,7 +2,7 @@ import { Ride as rideModel } from "../models/ride.model.js";
 import { getDistanceTimeService as getDistanceTime } from "./maps.service.js";
 import crypto from 'crypto';
 
-async function getFare(pickup, destination) {
+export const getFare =  async function getFare(pickup, destination) {
   if (!pickup || !destination) {
     throw new Error("Pickup and Destination are required");
   }
@@ -32,17 +32,17 @@ async function getFare(pickup, destination) {
 
   const fare = {
     moto:
-      baseFare.moto + 
+     Math.round( baseFare.moto + 
       (distanceTime.distance.value / 1000 * perKmRate.moto) +
-      (distanceTime.duration.value / 60 * perMinuteRate.moto),
+      (distanceTime.duration.value / 60 * perMinuteRate.moto)),
     car: 
-      baseFare.car + 
+      Math.round(baseFare.car + 
       (distanceTime.distance.value / 1000 * perKmRate.car) +
-      (distanceTime.duration.value / 60 * perMinuteRate.car),
+      (distanceTime.duration.value / 60 * perMinuteRate.car)),
     auto: 
-      baseFare.auto + 
+      Math.round(baseFare.auto + 
       (distanceTime.distance.value / 1000 * perKmRate.auto) +
-      (distanceTime.duration.value / 60 * perMinuteRate.auto),
+      (distanceTime.duration.value / 60 * perMinuteRate.auto)),
   };
 
   

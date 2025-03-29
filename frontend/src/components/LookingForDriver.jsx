@@ -2,14 +2,14 @@ import { ChevronDown, IndianRupee, LocateFixed, MapPin } from "lucide-react";
 import React from "react";
 import whiteCar from '../assets/White-Car.png'
 
-const LookingForDriver = ({ setVehicleFound, vehicleFoundRef }) => {
+const LookingForDriver = ({ setVehicleFound, vehicleFoundRef, pickupLocation, destination, fare, vehicleType }) => {
   return (
     <div
       ref={vehicleFoundRef}
-      className="fixed w-full z-10 bottom-0 bg-white translate-y-full py-3 px-3  p-3"
+      className="fixed w-full z-10 bottom-0 bg-white translate-y-full py-3 px-3 p-3 opacity-0 pointer-events-none"
     >
       <h5
-        className="p-3 text-center absolute top-0  right-0"
+        className="p-3 text-center absolute top-0 right-0 cursor-pointer"
         onClick={() => {
           setVehicleFound(false);
         }}
@@ -27,24 +27,24 @@ const LookingForDriver = ({ setVehicleFound, vehicleFoundRef }) => {
         />
         <div className="w-full mt-5 ">
           <div className="flex items-center gap-5 p-2 border-b-2">
-            <LocateFixed   />
+            <LocateFixed />
             <div>
-              <h3 className="text-lg font-medium">Ghzaidabad</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Delhi NCR, India</p>
+              <h3 className="text-lg font-medium">{pickupLocation?.split(',')[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600">{pickupLocation}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 border-b-2">
-            <MapPin color="white" fill="black"  />
+            <MapPin color="white" fill="black" />
             <div>
-              <h3 className="text-lg font-medium">123 Main St</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Springfield, USA</p>
+              <h3 className="text-lg font-medium">{destination?.split(',')[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600">{destination}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 ">
-            <IndianRupee  />
+            <IndianRupee />
             <div>
-              <h3 className="text-lg font-medium">₹155</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Cash Cash</p>
+              <h3 className="text-lg font-medium">₹{fare[vehicleType]}</h3>
+              <p className="text-sm -mt-1 text-gray-600">Cash</p>
             </div>
           </div>
         </div>

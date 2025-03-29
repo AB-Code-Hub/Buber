@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import homeMap from "../assets/home-map.png";
 import { LogOut } from "lucide-react";
@@ -8,8 +8,20 @@ import RidePopUp from "../components/RidePopUp";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
+import { useSocket } from "../context/SocketContext";
+import { CaptainDataContext } from "../context/CaptainContext";
+
+
+
+
+
+
+
+
 
 const CaptainHome = () => {
+
+
   const [ridePopupPanle, setRidePopupPanle] = useState(true)
   const [confirmRidePopup, setConfirmRidePopup] = useState(false)
   const ridePopupPanelRef = useRef(null)

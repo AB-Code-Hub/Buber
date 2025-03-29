@@ -1,8 +1,13 @@
-import React from "react";
+import React,{useContext} from "react";
+
+import {CaptainDataContext} from "../context/CaptainContext"
 
 import { Clock2, Gauge, ReceiptText } from "lucide-react";
 
+
 const CaptainDetails = () => {
+
+  const {captain} = useContext(CaptainDataContext)
   return (
     <div>
       <div className="flex justify-between items-center mt-3 lg:mt-0 lg:px-3">
@@ -12,10 +17,10 @@ const CaptainDetails = () => {
             src="https://rahahome.com/wp-content/uploads/2022/11/2-min-scaled.jpg"
             alt="drive image"
           />
-          <h4 className="text-lg font-medium">Bilal</h4>
+          <h4 className="text-lg font-medium capitalize">{`${captain?.fullName.firstName} ${captain?.fullName.lastName}`}</h4>
         </div>
         <div>
-          <h4 className="text-xl font-semibold">₹899</h4>
+          <h4 className="text-xl font-semibold">₹889</h4>
           <p className="text-sm font-medium text-gray-600">Earned</p>
         </div>
       </div>

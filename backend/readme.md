@@ -893,24 +893,94 @@ The request body should be a **JSON object** with the following fields:
 The fare is calculated based on the following components:
 
 1. **Base Fare**:
-   - Motorcycle: 20
-   - Car: 50
-   - Auto: 30
+   - Motorcycle: ₹20
+   - Car: ₹50
+   - Auto: ₹30
 
 2. **Per Kilometer Rate**:
-   - Motorcycle: 5/km
-   - Car: 10/km
-   - Auto: 7/km
+   - Motorcycle: ₹5/km
+   - Car: ₹10/km
+   - Auto: ₹7/km
 
 3. **Per Minute Rate**:
-   - Motorcycle: 2/min
-   - Car: 4/min
-   - Auto: 3/min
+   - Motorcycle: ₹2/min
+   - Car: ₹4/min
+   - Auto: ₹3/min
 
 The total fare is calculated as:
 ```
 Total Fare = Base Fare + (Distance in km × Per km rate) + (Duration in minutes × Per minute rate)
 ```
+
+---
+
+## 🌟 **Endpoint**: `/rides/get-fare`
+
+### **Method**: `GET`
+
+### **Description**:
+This endpoint calculates the estimated fare for a ride based on the pickup and destination locations. It returns fares for all available vehicle types (motorcycle, car, and auto).
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+## 📥 **Query Parameters**
+
+| Parameter     | Type   | Description                    | Constraints                          |
+|---------------|--------|--------------------------------|--------------------------------------|
+| `pickup`      | String | Starting location              | Minimum length: 3 characters (required) |
+| `destination` | String | Ending location                | Minimum length: 3 characters (required) |
+
+### **Example Request**:
+```http
+GET /rides/get-fare?pickup=123 Main Street&destination=456 Park Avenue
+```
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Successfully calculated fares for all vehicle types.
+- **Response Body**:
+  ```json
+  {
+    "moto": 85.50,
+    "car": 150.75,
+    "auto": 105.25
+  }
+  ```
+
+### **400 Bad Request** ❌
+- **Description**: Validation error. Check your query parameters for missing or invalid fields.
+- **Response Body**:
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Error message here",
+        "param": "field_name",
+        "location": "query"
+      }
+    ]
+  }
+  ```
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
 
 ---
 
