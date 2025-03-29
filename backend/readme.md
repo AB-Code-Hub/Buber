@@ -658,6 +658,262 @@ Authorization: Bearer jwt_token_here
 
 ---
 
+# Maps Endpoints
+
+## 🌟 **Endpoint**: `/maps/get-coordinates`
+
+### **Method**: `GET`
+
+### **Description**:
+This endpoint converts an address string into latitude and longitude coordinates using Google Maps Geocoding API.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+## 📥 **Query Parameters**
+
+| Parameter  | Type   | Description                    | Constraints                          |
+|------------|--------|--------------------------------|--------------------------------------|
+| `address`  | String | The address to geocode         | Minimum length: 3 characters (required) |
+
+### **Example Request**:
+```http
+GET /maps/get-coordinates?address=123 Main Street, City
+```
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Successfully retrieved coordinates.
+- **Response Body**:
+  ```json
+  {
+    "lat": 12.3456,
+    "lng": 78.9012
+  }
+  ```
+
+---
+
+## 🌟 **Endpoint**: `/maps/get-distance-time`
+
+### **Method**: `GET`
+
+### **Description**:
+This endpoint calculates the distance and estimated travel time between two locations using Google Maps Distance Matrix API.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+## 📥 **Query Parameters**
+
+| Parameter     | Type   | Description                    | Constraints                          |
+|---------------|--------|--------------------------------|--------------------------------------|
+| `origin`      | String | Starting location              | Minimum length: 3 characters (required) |
+| `destination` | String | Ending location                | Minimum length: 3 characters (required) |
+
+### **Example Request**:
+```http
+GET /maps/get-distance-time?origin=123 Main Street&destination=456 Park Avenue
+```
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Successfully retrieved distance and time.
+- **Response Body**:
+  ```json
+  {
+    "distance": {
+      "text": "5.2 km",
+      "value": 5200
+    },
+    "duration": {
+      "text": "15 mins",
+      "value": 900
+    },
+    "status": "OK"
+  }
+  ```
+
+---
+
+## 🌟 **Endpoint**: `/maps/get-suggestions`
+
+### **Method**: `GET`
+
+### **Description**:
+This endpoint provides address suggestions as you type using Google Maps Places Autocomplete API.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+## 📥 **Query Parameters**
+
+| Parameter | Type   | Description                    | Constraints                          |
+|-----------|--------|--------------------------------|--------------------------------------|
+| `input`   | String | The text to get suggestions for| Minimum length: 3 characters (required) |
+
+### **Example Request**:
+```http
+GET /maps/get-suggestions?input=123 Main
+```
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Successfully retrieved suggestions.
+- **Response Body**:
+  ```json
+  [
+    {
+      "description": "123 Main Street, City, Country",
+      "place_id": "ChIJ..."
+    },
+    {
+      "description": "123 Main Avenue, City, Country",
+      "place_id": "ChIJ..."
+    }
+  ]
+  ```
+
+---
+
+# Ride Endpoints
+
+## 🌟 **Endpoint**: `/rides/create`
+
+### **Method**: `POST`
+
+### **Description**:
+This endpoint allows users to create a new ride request. The system will calculate the fare based on the distance, duration, and vehicle type.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+## 📥 **Request Body**
+
+The request body should be a **JSON object** with the following fields:
+
+| Field         | Type   | Description                    | Constraints                          |
+|---------------|--------|--------------------------------|--------------------------------------|
+| `pickup`      | String | Starting location              | Minimum length: 3 characters (required) |
+| `destination` | String | Ending location                | Minimum length: 3 characters (required) |
+| `vehicleType` | String | Type of vehicle               | Must be one of: "moto", "car", "auto" (required) |
+
+### **Example Request**:
+```json
+{
+  "pickup": "123 Main Street",
+  "destination": "456 Park Avenue",
+  "vehicleType": "car"
+}
+```
+
+## 📤 **Responses**
+
+### **201 Created** ✅
+- **Description**: Ride successfully created.
+- **Response Body**:
+  ```json
+  {
+    "_id": "ride_id_here",
+    "user": "user_id_here",
+    "pickup": "123 Main Street",
+    "destination": "456 Park Avenue",
+    "fare": 150.50,
+    "status": "pending",
+    "otp": "123456",
+    "createdAt": "timestamp_here",
+    "updatedAt": "timestamp_here"
+  }
+  ```
+
+### **400 Bad Request** ❌
+- **Description**: Validation error or invalid vehicle type.
+- **Response Body**:
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Error message here",
+        "param": "field_name",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+### **Fare Calculation Details**
+
+The fare is calculated based on the following components:
+
+1. **Base Fare**:
+   - Motorcycle: 20
+   - Car: 50
+   - Auto: 30
+
+2. **Per Kilometer Rate**:
+   - Motorcycle: 5/km
+   - Car: 10/km
+   - Auto: 7/km
+
+3. **Per Minute Rate**:
+   - Motorcycle: 2/min
+   - Car: 4/min
+   - Auto: 3/min
+
+The total fare is calculated as:
+```
+Total Fare = Base Fare + (Distance in km × Per km rate) + (Duration in minutes × Per minute rate)
+```
+
+---
+
 
 
 
