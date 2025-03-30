@@ -41,7 +41,14 @@ const CaptainHome = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
+
+             
+              
+
+
             const { latitude, longitude } = position.coords;
+          
+
             sendMessage("update-location-captain", {
               userId: captain._id,
               location: {
@@ -69,6 +76,9 @@ const CaptainHome = () => {
     // Clean up interval on component unmount
     return () => clearInterval(locationInterval);
   }, [captain, sendMessage]);
+
+
+  
 
 
 

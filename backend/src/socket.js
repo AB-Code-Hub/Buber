@@ -7,14 +7,14 @@ let io;
 export const initializeSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin:  "http://localhost:5173" || "*",
+            // origin: "http://localhost:5173" || "*",
+            origin: "https://1pvs5j71-5173.inc1.devtunnels.ms",
             methods: ["GET", "POST"],
             credentials: true,
-            
         }
     });
 
-    io.on('connection', (socket) => {
+    io.on('connection', (socket) => { 
         console.log('User connected:', socket.id);
 
         socket.on('join', async (data) => {
@@ -40,6 +40,7 @@ export const initializeSocket = (server) => {
             }
         }); 
 
+        
 
         socket.on('update-location-captain', async (data) => {
             const {userId,  location} = data;
@@ -74,7 +75,7 @@ export const initializeSocket = (server) => {
                 return;
             }
 
-            console.log(`Updating captain ${userId} location to ${location}`);
+           
 
             // Update captain location
                 await captainModel.findByIdAndUpdate(userId, {location: {
@@ -82,7 +83,7 @@ export const initializeSocket = (server) => {
                     lng: location.lng,
                 }}, {new: true});
 
-            console.log(`Captain ${userId} location updated to ${location}`);
+          
             
             
         })

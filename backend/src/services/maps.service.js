@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { GOOGLE_MAP_API_KEY } from '../config/env.js';
+import { Captain as captainModel } from '../models/captin.model.js';
 
 export const getAddressCordinates = async (address) => {
     try {
@@ -13,7 +14,8 @@ export const getAddressCordinates = async (address) => {
 
         if (response.data.status === 'OK') {
             const { lat, lng } = response.data.results[0].geometry.location;
-            return { lat, lng };
+            const ltd = lat;
+            return { ltd, lng };
         } else {
             throw new Error(`Geocoding error: ${response.data.status}`);
         }
@@ -85,5 +87,29 @@ export const getSuggestionsService = async (input) => {
             console.error('Error fetching suggestions:', error.message);
             throw error;
         }
+
+}
+
+
+export const getCaptainsInRadius = async (lng, ltd, radius) => {
+
+    try {
+        // Convert radius from miles to kilometers if needed (MongoDB uses meters)
+        const radiusInMeters = radius * 1000; // Assuming radius is in kilometers
+        
+        const captains = await captainModel.find({
+            location: {
+                $near: {
+                    $geometry: { type: "Point", coordinates: [lng, ltd] },
+                    $maxDistance: radiusInMeters
+                }
+            }
+        });
+
+        return captains;
+    } catch (error) {
+        console.error('Error fetching captains in radius:', error.message);
+        throw error;
+    }
 
 }
