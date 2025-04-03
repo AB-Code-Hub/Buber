@@ -5,7 +5,8 @@ const RidePopUp = ({
   ridePopupPanelRef,
   setRidePopupPanle,
   setConfirmRidePopup,
- 
+  newRide,
+  confirmRide,
 }) => {
   return (
     <div
@@ -23,7 +24,7 @@ const RidePopUp = ({
             alt="user-image"
             className="size-12 lg:size-16 object-cover rounded-full"
           />
-          <h2 className="text-lg lg:text-xl font-medium">Sonam Gupta</h2>
+          <h2 className="text-lg lg:text-xl font-medium">{`${newRide?.user.fullName.firstName} ${newRide?.user.fullName.lastName}`}</h2>
         </div>
         <h5 className="text-base lg:text-lg font-semibold text-gray-600">
           2.2 km away
@@ -35,39 +36,36 @@ const RidePopUp = ({
           <div className="flex items-center gap-5 p-2 border-b-2">
             <LocateFixed />
             <div>
-              <h3 className="text-lg font-medium">Ghaziabad</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Delhi NCR, India</p>
+              <h3 className="text-lg font-medium">{newRide?.pickup.split(",")[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600 ">{newRide?.pickup.split(",")[1]}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 border-b-2">
             <MapPin color="white" fill="black" />
             <div>
-              <h3 className="text-lg font-medium">123 Main St</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Springfield, USA</p>
+              <h3 className="text-lg font-medium">{newRide?.destination.split(",")[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600 ">{newRide?.destination.split(",")[1]}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 ">
             <IndianRupee />
             <div>
-              <h3 className="text-lg font-medium">₹155</h3>
+              <h3 className="text-lg font-medium">₹{newRide?.fare}</h3>
               <p className="text-sm -mt-1 text-gray-600 ">Cash Cash</p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col my-4 w-full items-center  gap-5">
-
-
-        <button
+          <button
             onClick={() => {
-              setConfirmRidePopup(true);
+              confirmRide(newRide._id);
             }}
-            className=" w-full  lg:w-1/2  lg:mt-1 text-white p-2 px-10 font-semibold rounded-xl text-lg bg-black"
+            className="bg-black text-white w-full py-3 rounded-lg"
           >
-            Accept
+            Accept Ride
           </button>
 
-          
           <button
             onClick={() => {
               setRidePopupPanle(false);
@@ -76,8 +74,6 @@ const RidePopUp = ({
           >
             Ignore
           </button>
-
-        
         </div>
       </div>
     </div>

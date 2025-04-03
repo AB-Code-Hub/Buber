@@ -44,7 +44,6 @@ export const initializeSocket = (server) => {
 
         socket.on('update-location-captain', async (data) => {
             const {userId,  location} = data;
-                console.log(`User ${userId} updated location ${location}`);
 
             
             // Validate location data
@@ -97,14 +96,15 @@ export const initializeSocket = (server) => {
     return io;
 };
 
-export const sendMessageToSocketId = (socketId, message) => {
+export const sendMessageToSocketId = (socketId, messageobj) => {
     if (!io) {
         console.error('Socket not initialized');
         return;
     }
 
     try {
-        io.to(socketId).emit("message", message);
+        console.log(`Sending message to socket ${socketId}:`, messageobj);
+        io.to(socketId).emit(messageobj.event, messageobj.data);
     } catch (error) {
         console.error('Error sending message:', error);
     }

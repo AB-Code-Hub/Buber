@@ -50,7 +50,6 @@ const SocketProvider = ({ children }) => {
             return;
         }
         socketRef.current.emit(eventName, data);
-        console.log(`Sending message to server: ${eventName} with data: ${JSON.stringify(data)}`);
     };
 
     // Function to listen to specific events

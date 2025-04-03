@@ -12,3 +12,7 @@ export const getFareValidation = [
     query("destination").isString().isLength({min: 3}).withMessage("Invalid Destination address"),
     
 ]
+
+export const confirmRideValidation = [
+    body("rideId").notEmpty().withMessage("Ride ID is required").isMongoId().withMessage("Invalid Ride ID"),
+]

@@ -10,53 +10,43 @@ import { useGSAP } from "@gsap/react";
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { useSocket } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
-
+import axios from "axios";
 
 const CaptainHome = () => {
+  const [ridePopupPanle, setRidePopupPanle] = useState(false);
+  const [confirmRidePopup, setConfirmRidePopup] = useState(false);
+  const [newRide, setNewRide] = useState(null);
+  const ridePopupPanelRef = useRef(null);
+  const confirmRidePopupRef = useRef(null);
+  const { captain } = useContext(CaptainDataContext);
+  const { sendMessage, onMessage } = useSocket();
 
-  const [ridePopupPanle, setRidePopupPanle] = useState(true)
-  const [confirmRidePopup, setConfirmRidePopup] = useState(false)
-  const ridePopupPanelRef = useRef(null)
-  const confirmRidePopupRef = useRef(null)
-  const {captain} = useContext(CaptainDataContext)
-  const {  sendMessage} = useSocket()
-
-  useEffect(()=>{
-
-    
-     if(captain){
-      sendMessage("join", {userId: captain._id, userType: 'captain'})
-     }
+  useEffect(() => {
+    if (captain) {
+      sendMessage("join", { userId: captain._id, userType: "captain" });
+    }
 
     // Set up interval to send captain location updates every 10 seconds
-  
-    
-  },[captain, sendMessage])
+  }, [captain, sendMessage]);
 
   useEffect(() => {
     if (!captain) return;
-    
+
     // Function to get current location and send to server
     const sendLocationUpdate = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-
-             
-              
-
-
             const { latitude, longitude } = position.coords;
-          
 
             sendMessage("update-location-captain", {
               userId: captain._id,
               location: {
                 ltd: latitude,
-                lng: longitude
-              }
+                lng: longitude,
+              },
             });
-            console.log("Location updated:", latitude, longitude);
+            // console.log("Location updated:", latitude, longitude);
           },
           (error) => {
             console.error("Error getting location:", error.message);
@@ -66,23 +56,24 @@ const CaptainHome = () => {
         console.error("Geolocation is not supported by this browser");
       }
     };
-    
+
     // Send initial location update
     sendLocationUpdate();
-    
+
     // Set up interval for regular updates
     const locationInterval = setInterval(sendLocationUpdate, 10000);
-    
+
     // Clean up interval on component unmount
     return () => clearInterval(locationInterval);
   }, [captain, sendMessage]);
 
+  useEffect(() => {
+    onMessage("new-ride", (data) => {
+      setNewRide(data);
+      setRidePopupPanle(true);
+    });
+  }, [onMessage]);
 
-  
-
-
-
-  
   useGSAP(
     function () {
       if (ridePopupPanle) {
@@ -97,7 +88,7 @@ const CaptainHome = () => {
     },
     [ridePopupPanle]
   );
-  
+
   useGSAP(
     function () {
       if (confirmRidePopup) {
@@ -112,6 +103,7 @@ const CaptainHome = () => {
     },
     [confirmRidePopup]
   );
+
   return (
     <div className="h-screen ">
       <div className="fixed flex p-1 top-0 items-center justify-between w-full ">
@@ -134,8 +126,38 @@ const CaptainHome = () => {
 
       <div className="h-2/5 py-4 px-3 lg:px-12">
         <CaptainDetails />
-        <RidePopUp  ridePopupPanelRef={ridePopupPanelRef} setRidePopupPanle={setRidePopupPanle} setConfirmRidePopup={setConfirmRidePopup}/>
-        <ConfirmRidePopup confirmRidePopupRef={confirmRidePopupRef} setConfirmRidePopup={setConfirmRidePopup} setRidePopupPanle={setRidePopupPanle}/>
+        <RidePopUp
+          newRide={newRide}
+          ridePopupPanelRef={ridePopupPanelRef}
+          setRidePopupPanle={setRidePopupPanle}
+          setConfirmRidePopup={setConfirmRidePopup}
+          confirmRide={async (rideId) => {
+            try {
+              const response = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+                {
+                  rideId: rideId,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+                }
+              );
+              if (response.data) {
+                setRidePopupPanle(false);
+                setConfirmRidePopup(true);
+              }
+            } catch (error) {
+              console.error("Error in confirmRide:", error);
+            }
+          }}
+        />
+        <ConfirmRidePopup
+          confirmRidePopupRef={confirmRidePopupRef}
+          setConfirmRidePopup={setConfirmRidePopup}
+          setRidePopupPanle={setRidePopupPanle}
+        />
       </div>
     </div>
   );

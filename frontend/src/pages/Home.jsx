@@ -1,18 +1,19 @@
-import React, { useRef, useState, useCallback, useContext, useEffect   } from "react";
+import React, { useRef, useState, useCallback, useContext, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Turtle } from "lucide-react";
 import LocationSearchPanle from "../components/LocationSearchPanle";
 import BookingPanel from "../components/BookingPanel";
 import ConfirmedVehiclePanel from "../components/ConfirmedVehiclePanel";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
-import appIcon from '../assets/App-icon.png'
-import homeMap from '../assets/home-map.png'
+import appIcon from '../assets/App-icon.png';
+import homeMap from '../assets/home-map.png';
 import axios from "axios";
 import toast from 'react-hot-toast';
-import { useSocket } from "../context/SocketContext"
+import { useSocket } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
+import { data } from "react-router-dom";
 
 // Custom debounce hook
 const useDebounce = (callback, delay) => {
@@ -44,18 +45,23 @@ const Home = () => {
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
 
-  const {sendMessage, } = useSocket()
-  const {user} = useContext(UserDataContext)
-
-
-  
+  const { sendMessage, onMessage } = useSocket();
+  const { user } = useContext(UserDataContext);
 
   useEffect(() => {
-    
-    sendMessage("join", {userId: user._id, userType: "user"})
-    
-    
-  }, [user, sendMessage])
+    sendMessage("join", { userId: user._id, userType: "user" });
+  }, [user, sendMessage]);
+
+  useEffect(() => {
+    onMessage("ride-confirmed", (ride) => {
+      console.log("Received ride-confirmed event:", ride);
+      if (ride && ride.status === "confirmed") {
+        setWaitForDriver(true);
+        setVehicleFound(false);
+        console.log("Driver accepted the ride:", ride);
+      }
+    });
+  }, [onMessage]);
 
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
@@ -155,6 +161,7 @@ const Home = () => {
         }
       });
       console.log(response.data);
+      setVehicleFound(true);
     } catch (error) {
       console.error("Error creating ride:", error);
       toast.error('Failed to create ride. Please try again.', {
@@ -375,12 +382,13 @@ const Home = () => {
         setVehicleFound={setVehicleFound}
       />
       <LookingForDriver
-       pickupLocation={pickupLocation}
-       destination={destination}
-       fare={fare}
-       vehicleType={vehicleType}
+        pickupLocation={pickupLocation}
+        destination={destination}
+        fare={fare}
+        vehicleType={vehicleType}
         vehicleFoundRef={vehicleFoundRef}
         setVehicleFound={setVehicleFound}
+        rideStatus={waitForDriver ? "confirmed" : "searching"} // Pass ride status
       />
 
       <WaitingForDriver
