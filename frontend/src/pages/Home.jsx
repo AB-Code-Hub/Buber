@@ -13,7 +13,7 @@ import axios from "axios";
 import toast from 'react-hot-toast';
 import { useSocket } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
-import { data } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Custom debounce hook
 const useDebounce = (callback, delay) => {
@@ -44,24 +44,11 @@ const Home = () => {
   const [searchType, setSearchType] = useState(""); 
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+  const [ride, setRide] = useState(null)
+  const navigate = useNavigate();
 
   const { sendMessage, onMessage } = useSocket();
   const { user } = useContext(UserDataContext);
-
-  useEffect(() => {
-    sendMessage("join", { userId: user._id, userType: "user" });
-  }, [user, sendMessage]);
-
-  useEffect(() => {
-    onMessage("ride-confirmed", (ride) => {
-      console.log("Received ride-confirmed event:", ride);
-      if (ride && ride.status === "confirmed") {
-        setWaitForDriver(true);
-        setVehicleFound(false);
-        console.log("Driver accepted the ride:", ride);
-      }
-    });
-  }, [onMessage]);
 
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
@@ -182,6 +169,36 @@ const Home = () => {
     setDestination(value);
     debouncedFetchSuggestions(value, "destination");
   };
+
+  useEffect(() => {
+    sendMessage("join", { userId: user?._id, userType: "user" });
+  }, [user, sendMessage]);
+
+  useEffect(() => {
+    onMessage("ride-confirmed", (ride) => {
+      console.log("Received ride-confirmed event:", ride);
+      if (ride && ride.status === "confirmed") {
+        setWaitForDriver(true);
+        setVehicleFound(false);
+        setRide(ride);
+        console.log("Driver accepted the ride:", ride);
+      }
+    });
+  }, [onMessage]);
+
+  useEffect(() => {
+    onMessage("ride-started", (ride) => {
+      console.log("Received ride-started event:", ride);
+      if (ride && ride.status === "confirmed") {
+        setConfirmedVehiclePanel(false); 
+        setWaitForDriver(false);
+        setVehicleFound(false);
+        setRide(ride);
+        navigate('/riding')
+        console.log("Ride started:", ride);
+      }
+    }); 
+  }, [onMessage]);
 
   const subimtHandler = async (e) => {
     e.preventDefault();
@@ -392,6 +409,9 @@ const Home = () => {
       />
 
       <WaitingForDriver
+        ride={ride}
+        setVehicleFound={setVehicleFound}
+        waitForDriver={waitForDriver}
         setWaitForDriver={setWaitForDriver}
         waitForDriverRef={waitForDriverRef}
       />

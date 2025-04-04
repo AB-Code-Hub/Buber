@@ -154,6 +154,7 @@ const CaptainHome = () => {
           }}
         />
         <ConfirmRidePopup
+          newRide={newRide}
           confirmRidePopupRef={confirmRidePopupRef}
           setConfirmRidePopup={setConfirmRidePopup}
           setRidePopupPanle={setRidePopupPanle}

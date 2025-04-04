@@ -16,3 +16,9 @@ export const getFareValidation = [
 export const confirmRideValidation = [
     body("rideId").notEmpty().withMessage("Ride ID is required").isMongoId().withMessage("Invalid Ride ID"),
 ]
+
+
+export const startRideValidation = [
+    query("rideId").notEmpty().withMessage("Ride ID is required").isMongoId().withMessage("Invalid Ride ID"),
+    query("otp").notEmpty().withMessage("OTP is required").isLength({min: 6}).withMessage("Invalid OTP"),
+]

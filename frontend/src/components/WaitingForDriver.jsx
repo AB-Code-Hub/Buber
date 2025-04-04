@@ -2,7 +2,7 @@ import { ChevronDown, IndianRupee, LocateFixed, MapPin } from "lucide-react";
 import React from "react";
 import whiteCar from '../assets/White-Car.png'
 
-const WaitingForDriver = ({ setWaitForDriver, waitForDriverRef }) => {
+const WaitingForDriver = ({ setWaitForDriver, waitForDriverRef, setVehicleFound, waitForDriver,  ride }) => {
   return (
     <div
       ref={waitForDriverRef}
@@ -25,9 +25,9 @@ const WaitingForDriver = ({ setWaitForDriver, waitForDriverRef }) => {
         />
 
         <div className="text-right">
-          <h2 className="text-xl font-semibold">Bilal</h2>
-          <h4 className="text-lg font-medium">UP 00 AB 1234</h4>
-          <p className="text-gray-600 text-base font-medium">Tesla Model 3</p>
+          <h2 className="text-xl font-semibold">{`${ride?.user.fullName.firstName} ${ride?.user.fullName.lastName}`}</h2>
+          <h4 className="text-lg font-medium">{ride?.captain.vehicle.plate}</h4>
+          <p className="text-gray-600 text-base font-medium">{`OTP`} <span className="font-bold text-black text-lg">{ride?.otp}</span></p>
         </div>
       </div>
 
@@ -36,23 +36,25 @@ const WaitingForDriver = ({ setWaitForDriver, waitForDriverRef }) => {
           <div className="flex items-center gap-5 p-2 border-b-2">
             <LocateFixed />
             <div>
-              <h3 className="text-lg font-medium">Ghzaidabad</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Delhi NCR, India</p>
+              <h3 className="text-lg font-medium capitalize">{ride?.pickup.split(",")[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600 capitalize ">{ride?.pickup.split(",")[1]}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 border-b-2">
             <MapPin color="white" fill="black" />
             <div>
-              <h3 className="text-lg font-medium">123 Main St</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Springfield, USA</p>
+              <h3 className="text-lg font-medium">{ride?.destination.split(",")[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600 ">{ride?.destination.split(",")[1]}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 ">
             <IndianRupee />
             <div>
-              <h3 className="text-lg font-medium">₹155</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Cash Cash</p>
+              <h3 className="text-lg font-medium">₹{ride?.fare}</h3>
+              <p className="text-sm -mt-1 text-gray-600 ">Cash</p>
             </div>
+
+            
           </div>
         </div>
       </div>

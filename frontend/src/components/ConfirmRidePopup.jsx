@@ -1,17 +1,41 @@
 import { LocateFixed, MapPin, IndianRupee } from "lucide-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const ConfirmRidePopup = ({
   confirmRidePopupRef,
   setConfirmRidePopup,
   setRidePopupPanle,
+  newRide,
 }) => {
 
   const [OTP, setOTP] = useState('')
+  const navigate = useNavigate();
+  
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
+    
+
+    try {
+      const response =  await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
+        params: {rideId: newRide._id,
+        otp: OTP},
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+
+      if(response.status === 200) {
+        setConfirmRidePopup(false);
+        setRidePopupPanle(false);
+        navigate("/captain-ride")
+
+      }
+    } catch (error) {
+      console.log(error);   
+      
+    }
   }
   return (
     <div
@@ -29,7 +53,7 @@ const ConfirmRidePopup = ({
             alt="user-image"
             className="size-12 lg:size-16 object-cover rounded-full"
           />
-          <h2 className="text-lg lg:text-xl font-medium">Sonam Gupta</h2>
+          <h2 className="text-lg lg:text-xl font-medium capitalize">{`${newRide?.user.fullName.firstName} ${newRide?.user.fullName.lastName}`}</h2>
         </div>
         <h5 className="text-base lg:text-lg font-semibold text-gray-600">
           2.2 km away
@@ -41,22 +65,22 @@ const ConfirmRidePopup = ({
           <div className="flex items-center gap-5 p-2 border-b-2">
             <LocateFixed />
             <div>
-              <h3 className="text-lg font-medium">Ghaziabad</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Delhi NCR, India</p>
+              <h3 className="text-lg font-medium">{newRide?.pickup.split(",")[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600 ">{newRide?.pickup.split(",")[1]}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 border-b-2">
             <MapPin color="white" fill="black" />
             <div>
-              <h3 className="text-lg font-medium">123 Main St</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Springfield, USA</p>
+              <h3 className="text-lg font-medium">{newRide?.destination.split(",")[0]}</h3>
+              <p className="text-sm -mt-1 text-gray-600 ">{newRide?.destination.split(",")[1]}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-2 ">
             <IndianRupee />
             <div>
-              <h3 className="text-lg font-medium">₹155</h3>
-              <p className="text-sm -mt-1 text-gray-600 ">Cash Cash</p>
+              <h3 className="text-lg font-medium">₹{newRide?.fare}</h3>
+              <p className="text-sm -mt-1 text-gray-600 ">Cash</p>
             </div>
           </div>
         </div>
@@ -74,18 +98,15 @@ const ConfirmRidePopup = ({
               placeholder="Enter OTP"
               className="bg-[#eee] lg:mb-3 text-xl font-mono font-medium rounded-lg px-6 py-4 lg:py-3 focus:outline-gray-400  w-full"
             />
-            <Link
-              to="/captain-ride"
+            <button
+             type="submit"
               className=" flex justify-center w-full  lg:mb-3 mt-5 lg:mt-1 text-white p-3 font-semibold rounded-xl text-xl bg-green-500"
             >
               Confirm Ride
-            </Link>
+            </button>
 
             <button
-              onClick={() => {
-                setConfirmRidePopup(false);
-                setRidePopupPanle(false);
-              }}
+              onClick={submitHandler}
               className="w-full mt-2  text-white p-3 font-semibold rounded-xl text-xl bg-red-500"
             >
               Cancel Ride
