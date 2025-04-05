@@ -1,3 +1,4 @@
+import exp from 'constants';
 import { body, query } from 'express-validator';
 
 
@@ -21,4 +22,9 @@ export const confirmRideValidation = [
 export const startRideValidation = [
     query("rideId").notEmpty().withMessage("Ride ID is required").isMongoId().withMessage("Invalid Ride ID"),
     query("otp").notEmpty().withMessage("OTP is required").isLength({min: 6}).withMessage("Invalid OTP"),
+]
+
+
+export const endRideValidation = [
+    body("rideId").notEmpty().withMessage("Ride ID is required").isMongoId().withMessage("Invalid Ride ID"),
 ]

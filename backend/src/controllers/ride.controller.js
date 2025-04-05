@@ -1,4 +1,4 @@
-import { createRideService } from "../services/ride.service.js";
+import { createRideService, endRideService } from "../services/ride.service.js";
 import { validationResult } from "express-validator";
 import { getFare } from "../services/ride.service.js";
 import { getAddressCordinates, getCaptainsInRadius } from "../services/maps.service.js";
@@ -99,5 +99,37 @@ export const confirmRideController = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+
+export const endRideController = async (req, res) => {
+
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId } = req.body;
+  console.log("Received rideId:", rideId); // Debug log
+
+  try {
+    const ride = await endRideService({ rideId, captain: req.captain });
+    if (!ride) {
+      return res.status(404).json({ message: "Ride not found" });
+    }
+   
+
+    // Emit the event only if the ride is confirmed
+      sendMessageToSocketId(ride.user.socketId, {
+        event: "ride-ended",
+        data: ride,
+      });
+    
+
+    return res.status(200).json(ride);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 

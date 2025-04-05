@@ -147,3 +147,37 @@ export const startRideService = async ({ rideId, otp, captain }) => {
 
   return ride;
 };
+
+
+export const endRideService = async ({ rideId, captain }) => {
+  if (!rideId || !captain) {
+    throw new Error("Ride ID and Captain are required");
+  }
+
+  const ride = await rideModel
+    .findOne({ _id: rideId, captain: captain._id })
+    .populate("user")
+    .populate("captain")
+    .select("+otp");
+
+  if (!ride) {
+    throw new Error("Ride not found");
+  }
+
+  if (ride.status !== "started") {
+    throw new Error("Ride is not started yet");
+  }
+
+  const updateride = await rideModel.findOneAndUpdate(
+    { _id: rideId },
+    { status: "completed" },
+    { new: true }
+  );
+
+  if (!updateride) {
+    throw new Error("Ride not found");
+  }
+
+  return ride;
+};
+

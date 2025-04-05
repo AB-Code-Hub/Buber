@@ -136,6 +136,19 @@ const Home = () => {
     setvehiclePanel(true);
   };
 
+  const handlePickupChange = (e) => {
+    const value = e.target.value;
+    setPickupLocation(value);
+    debouncedFetchSuggestions(value, "pickup");
+  };
+
+  const handleDestinationChange = (e) => {
+    const value = e.target.value;
+    setDestination(value);
+    debouncedFetchSuggestions(value, "destination");
+  };
+
+
   const createRide = async () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create-ride`, {
@@ -158,25 +171,12 @@ const Home = () => {
     }
   };
 
-  const handlePickupChange = (e) => {
-    const value = e.target.value;
-    setPickupLocation(value);
-    debouncedFetchSuggestions(value, "pickup");
-  };
-
-  const handleDestinationChange = (e) => {
-    const value = e.target.value;
-    setDestination(value);
-    debouncedFetchSuggestions(value, "destination");
-  };
-
   useEffect(() => {
     sendMessage("join", { userId: user?._id, userType: "user" });
   }, [user, sendMessage]);
 
   useEffect(() => {
     onMessage("ride-confirmed", (ride) => {
-      console.log("Received ride-confirmed event:", ride);
       if (ride && ride.status === "confirmed") {
         setWaitForDriver(true);
         setVehicleFound(false);
@@ -188,13 +188,11 @@ const Home = () => {
 
   useEffect(() => {
     onMessage("ride-started", (ride) => {
-      console.log("Received ride-started event:", ride);
       if (ride && ride.status === "confirmed") {
-        setConfirmedVehiclePanel(false); 
         setWaitForDriver(false);
         setVehicleFound(false);
         setRide(ride);
-        navigate('/riding')
+        navigate('/riding', { state: {ride}})
         console.log("Ride started:", ride);
       }
     }); 
