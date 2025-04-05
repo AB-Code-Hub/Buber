@@ -4,6 +4,7 @@ import { useEffect, useContext } from "react";
 import { useSocket } from "../context/SocketContext";
 import homeMap from "../assets/home-map.png";
 import whiteCar from "../assets/White-Car.png";
+import LiveTracking from "../components/LiveTracking";
 
 const Riding = () => {
   const navigate = useNavigate();
@@ -34,11 +35,7 @@ const Riding = () => {
       </Link>
 
       <div className="h-1/2">
-        <img
-          className="-z-10 w-full h-full object-cover "
-          src={homeMap}
-          alt="map-image"
-        />
+        <LiveTracking />
       </div>
 
       <div className="h-1/2 p-4">

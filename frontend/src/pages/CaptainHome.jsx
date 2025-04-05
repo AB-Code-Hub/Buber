@@ -11,6 +11,7 @@ import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { useSocket } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
 import axios from "axios";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainHome = () => {
   const [ridePopupPanle, setRidePopupPanle] = useState(false);
@@ -117,11 +118,7 @@ const CaptainHome = () => {
       </div>
 
       <div className="h-3/5">
-        <img
-          className="-z-10 w-full h-full object-cover "
-          src={homeMap}
-          alt="map-image"
-        />
+       <LiveTracking />
       </div>
 
       <div className="h-2/5 py-4 px-3 lg:px-12">

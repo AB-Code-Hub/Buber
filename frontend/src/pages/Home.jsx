@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import { useSocket } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 // Custom debounce hook
 const useDebounce = (callback, delay) => {
@@ -310,11 +311,7 @@ const Home = () => {
       />
 
       <div className="h-screen w-screen">
-        <img
-          className="-z-10 w-full h-full object-cover "
-          src={homeMap}
-          alt="map-image"
-        />
+       <LiveTracking  />
       </div>
 
       <div className=" absolute h-screen top-0 w-full flex flex-col justify-end  ">

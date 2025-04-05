@@ -6,6 +6,7 @@ import driverLogo from "../assets/Driver_Signup.png";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import FinishRide from "../components/FinishRide";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainRide = () => {
   const [finishRidePanel, setFinishRidePanel] = useState(false);
@@ -42,11 +43,7 @@ const CaptainRide = () => {
       </div>
 
       <div className="h-[75%] lg:h-[70%]">
-        <img
-          className="-z-10 w-full h-full object-cover "
-          src={homeMap}
-          alt="map-image"
-        />
+       <LiveTracking />
       </div>
 
       <div className="h-[25%] py-4 px-4 relative   bg-white lg:px-12">
