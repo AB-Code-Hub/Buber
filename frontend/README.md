@@ -1,6 +1,6 @@
 # Buber Frontend
 
-This is the frontend for the Buber application, built using **React** and **Tailwind CSS**. It provides a seamless user experience for both riders and captains, with features like authentication, profile management, and more.
+This is the frontend for the Buber application, built using **React** and **Tailwind CSS**. It provides a seamless user experience for both riders and captains, with features like authentication, profile management, real-time ride tracking, and more.
 
 ---
 
@@ -40,6 +40,7 @@ The project relies on the following dependencies:
 | `@gsap/react`        | ^2.1.2    | React bindings for GSAP.             |
 | `lucide-react`       | ^0.482.0  | Beautiful & consistent icons.        |
 | `dotenv`             | ^16.4.7   | Environment variables management.    |
+| `socket.io-client`   | ^4.8.1    | Real-time bidirectional event-based communication. |
 
 ---
 
@@ -88,6 +89,7 @@ The application uses `react-router-dom` for client-side routing. The routes are 
 | `/home`            | `Home.jsx`           | Home page for authenticated riders.  |
 | `/riding`          | `Riding.jsx`         | Active ride interface for riders.    |
 | `/captain-home`    | `CaptainHome.jsx`    | Dashboard for captains.              |
+| `/captain-ride`    | `CaptainRide.jsx`    | Active ride interface for captains.  |
 | `/user/logout`     | `UserLogout.jsx`     | Logout page for riders.              |
 | `/captain/logout`  | `CaptainLogout.jsx`  | Logout page for captains.            |
 
@@ -123,13 +125,23 @@ The application implements a robust authentication system with:
 
 - **User Authentication**: Separate login/signup flows for riders and captains
 - **Protected Routes**: Secure access to user-specific features
-- **Real-time Updates**: Live ride status updates
+- **Real-time Updates**: Live ride status updates using Socket.IO
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Smooth Animations**: GSAP integration for enhanced user experience
 - **Toast Notifications**: User feedback using react-hot-toast
 - **Icon System**: Consistent iconography with lucide-react
 
 ## ⚠️ **Important Notes**
+
+### API Endpoints
+The application interacts with the following key API endpoints:
+- **`/users/profile`**: Fetch user profile details.
+- **`/maps/get-suggestions`**: Fetch location suggestions for pickup and destination.
+- **`/rides/get-fare`**: Calculate fare for a ride.
+- **`/rides/create-ride`**: Create a new ride request.
+- **`/rides/confirm`**: Confirm a ride request by the captain.
+- **`/rides/start-ride`**: Start a ride after OTP verification.
+- **`/rides/end-ride`**: End a ride and update its status.
 
 ### Image Copyrights
 All images used in this project are for demonstration purposes only. Some images may be subject to copyright restrictions. Please ensure you have the proper rights and licenses before using any images in a production environment.
@@ -143,6 +155,7 @@ The current implementation of the frontend may not be fully responsive across al
 - Enhanced captain dashboard interface
 - Added real-time ride status updates
 - Improved user authentication flow
+- Integrated new API endpoints for ride management
 
 ## 🔄 **Areas for Improvement**
 - Mobile responsiveness optimization

@@ -984,6 +984,182 @@ GET /rides/get-fare?pickup=123 Main Street&destination=456 Park Avenue
 
 ---
 
+## 🌟 **Endpoint**: `/rides/confirm`
+
+### **Method**: `POST`
+
+### **Description**:
+This endpoint allows captains to confirm a ride request. Upon confirmation, the ride status is updated, and the user is notified.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+## 📥 **Request Body**
+
+The request body should be a **JSON object** with the following fields:
+
+| Field         | Type   | Description                    | Constraints                          |
+|---------------|--------|--------------------------------|--------------------------------------|
+| `rideId`      | String | The ID of the ride to confirm. | Must be a valid ride ID (required)  |
+
+### **Example Request**:
+```json
+{
+  "rideId": "ride_id_here"
+}
+```
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Ride successfully confirmed.
+- **Response Body**:
+  ```json
+  {
+    "_id": "ride_id_here",
+    "user": "user_id_here",
+    "pickup": "123 Main Street",
+    "destination": "456 Park Avenue",
+    "fare": 150.50,
+    "status": "confirmed",
+    "captain": "captain_id_here",
+    "createdAt": "timestamp_here",
+    "updatedAt": "timestamp_here"
+  }
+  ```
+
+### **400 Bad Request** ❌
+- **Description**: Validation error or missing fields.
+- **Response Body**:
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Error message here",
+        "param": "field_name",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
+### **404 Not Found** ❌
+- **Description**: Ride not found.
+- **Response Body**:
+  ```json
+  {
+    "message": "Ride not found"
+  }
+  ```
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
+## 🌟 **Endpoint**: `/rides/end`
+
+### **Method**: `POST`
+
+### **Description**:
+This endpoint allows captains to end a ride. Upon completion, the ride status is updated, and the user is notified.
+
+---
+
+## 🛡️ **Authentication**
+
+This endpoint requires a valid JWT token to be included in the request headers.
+
+### **Example Request Headers**:
+```http
+Authorization: Bearer jwt_token_here
+```
+
+## 📥 **Request Body**
+
+The request body should be a **JSON object** with the following fields:
+
+| Field         | Type   | Description                    | Constraints                          |
+|---------------|--------|--------------------------------|--------------------------------------|
+| `rideId`      | String | The ID of the ride to end.     | Must be a valid ride ID (required)  |
+
+### **Example Request**:
+```json
+{
+  "rideId": "ride_id_here"
+}
+```
+
+## 📤 **Responses**
+
+### **200 OK** ✅
+- **Description**: Ride successfully ended.
+- **Response Body**:
+  ```json
+  {
+    "_id": "ride_id_here",
+    "user": "user_id_here",
+    "pickup": "123 Main Street",
+    "destination": "456 Park Avenue",
+    "fare": 150.50,
+    "status": "completed",
+    "captain": "captain_id_here",
+    "createdAt": "timestamp_here",
+    "updatedAt": "timestamp_here"
+  }
+  ```
+
+### **400 Bad Request** ❌
+- **Description**: Validation error or missing fields.
+- **Response Body**:
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Error message here",
+        "param": "field_name",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
+### **404 Not Found** ❌
+- **Description**: Ride not found.
+- **Response Body**:
+  ```json
+  {
+    "message": "Ride not found"
+  }
+  ```
+
+### **500 Internal Server Error** ⚠️
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+  ```json
+  {
+    "message": "Internal server error",
+    "error": "error_message_here"
+  }
+  ```
+
+---
+
 
 
 
